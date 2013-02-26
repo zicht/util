@@ -126,6 +126,7 @@ class Str
         return array_pop($parts);
     }
 
+
     /**
      * Returns a somewhat "humanized" version of the string.
      *
