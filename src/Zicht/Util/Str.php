@@ -1,0 +1,139 @@
+<?php
+/**
+ * @author Gerard van Helden <gerard@zicht.nl>
+ * @copyright Zicht Online <http://zicht.nl>
+ */
+namespace Zicht\Util;
+
+
+/**
+ * Utility functions for string formatting
+ */
+class Str
+{
+    /**
+     * Camelcases an underscored or dashed string
+     *
+     * @param string $str
+     * @param string $split
+     * @return string
+     */
+    public static function camel($str, $split = '-_')
+    {
+        return preg_replace_callback(
+            '/[' . preg_quote($split) . '](.?)/',
+            function ($m) {
+                return ucfirst($m[1]);
+            },
+            $str
+        );
+    }
+
+
+    /**
+     * Converts a camelcased string to dashed notation, CSS style.
+     *
+     * @param string $str
+     * @return string
+     */
+    public static function dash($str)
+    {
+        return preg_replace_callback(
+            '/[A-Z]/',
+            function ($m) {
+                return '-' . strtolower($m[0]);
+            },
+            $str
+        );
+    }
+
+
+    /**
+     * Converts a camelcased string to underscore notation, property style.
+     *
+     * @param string $str
+     * @return string
+     */
+    public static function uscore($str)
+    {
+        return lcfirst(
+            preg_replace_callback(
+                '/(?<=.)[A-Z]/',
+                function ($m) {
+                    return '_' . strtolower($m[0]);
+                },
+                $str
+            )
+        );
+    }
+
+
+    /**
+     * Strips a suffix of a string
+     *
+     * @param string $str
+     * @param string $suffix
+     * @return string
+     */
+    public static function rstrip($str, $suffix)
+    {
+        if (substr($str, -strlen($suffix)) == $suffix) {
+            return substr($str, 0, -strlen($suffix));
+        }
+        return $str;
+    }
+
+
+    /**
+     * Strips a prefix of a string
+     *
+     * @param string $str
+     * @param string $prefix
+     * @return string
+     */
+    public static function lstrip($str, $prefix)
+    {
+        if (substr($str, 0, strlen($prefix)) == $prefix) {
+            return substr($str, strlen($prefix));
+        }
+        return $str;
+    }
+
+
+    /**
+     * Strips a prefix and suffix of  a string
+     *
+     * @param string $str
+     * @param string $prefix
+     * @param string $suffix
+     * @return string
+     */
+    public static function strip($str, $prefix, $suffix)
+    {
+        return self::rstrip(self::lstrip($str, $prefix), $suffix);
+    }
+
+
+    /**
+     * Returns a local class name
+     *
+     * @param string $fqcn
+     * @return string
+     */
+    public static function classname($fqcn)
+    {
+        $parts = explode('\\', $fqcn);
+        return array_pop($parts);
+    }
+
+    /**
+     * Returns a somewhat "humanized" version of the string.
+     *
+     * @param string $str
+     * @return string
+     */
+    public static function humanize($str)
+    {
+        return ucfirst(strtolower(preg_replace('/\W+/', ' ', $str)));
+    }
+}
