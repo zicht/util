@@ -4,6 +4,7 @@
  * @copyright Zicht Online <http://zicht.nl>
  */
 namespace ZichtTest\Util;
+use Zicht\Util\Str;
 
 class StrTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,8 +21,6 @@ class StrTest extends \PHPUnit_Framework_TestCase
             call_user_func_array(array('\Zicht\Util\Str', $method), $args)
         );
     }
-
-
 
     function cases()
     {
@@ -61,7 +60,33 @@ class StrTest extends \PHPUnit_Framework_TestCase
             array('classname',   '', ''),
             array('classname',   'A', 'A'),
             array('classname',   'A\B', 'B'),
-            array('classname',   '\A\B', 'B')
+            array('classname',   '\A\B', 'B'),
+            array('humanize',    'one_flew_over_theCuckoos-nest', 'One flew over the cuckoos nest'),
         );
+    }
+
+
+    function testRandom()
+    {
+        // how to test randomness. Well..... something like this should do the trick.
+        $nTimes = 20;
+
+        for ($i = 0; $i < $nTimes; $i ++) {
+            $this->assertEquals('a', Str::random(1, 'a'));
+        }
+        for ($i = 0; $i < $nTimes; $i ++) {
+            $this->assertNotEquals('a', Str::random(1, 'b'));
+        }
+        for ($i = 0; $i < $nTimes; $i ++) {
+            $this->assertEquals(2, strlen(Str::random(2, '2130978213507')));
+        }
+        for ($i = 0; $i < $nTimes; $i ++) {
+            foreach (array(Str::ALNUM, Str::ALNUM_SAFE, Str::ALPHA, Str::NUMERIC, Str::HEX) as $src) {
+                $str = Str::random(10, $src);
+                for ($j = 0; $j < strlen($str); $j ++) {
+                    $this->assertTrue(false !== strpos($src, $str{$j}));
+                }
+            }
+        }
     }
 }

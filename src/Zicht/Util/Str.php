@@ -12,6 +12,31 @@ namespace Zicht\Util;
 class Str
 {
     /**
+     * Alphanumeric characters
+     */
+    const ALNUM = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+    /**
+     * Safe alphanumeric characters, excluding "look-alike" characters.
+     */
+    const ALNUM_SAFE = '345679abcdefghjkmnpqrstuvwxyABCDEFGHJKMNPQRSTUVWXY';
+
+    /**
+     * Alphabetic characters
+     */
+    const ALPHA = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+    /**
+     * Numeric characters
+     */
+    const NUMERIC = '01234567890';
+
+    /**
+     * Hexadecimal characters
+     */
+    const HEX = '1234567890abcdef';
+
+    /**
      * Camelcases an underscored or dashed string
      *
      * @param string $str
@@ -135,6 +160,27 @@ class Str
      */
     public static function humanize($str)
     {
-        return ucfirst(strtolower(preg_replace('/\W+/', ' ', $str)));
+        return ucfirst(strtolower(preg_replace('/[\W_]+/', ' ', self::uscore($str))));
+    }
+
+
+    /**
+     * Generate a random string with specified length from the specified characters
+     *
+     * @param int $length
+     * @param string $characters
+     * @return string
+     */
+    public static function random($length = 64, $characters = self::ALNUM)
+    {
+        $len = strlen($characters);
+        return join('',
+            array_map(
+                function() use($characters, $len) {
+                    return $characters{rand(0, $len -1)};
+                },
+                range(0, $length -1)
+            )
+        );
     }
 }
