@@ -113,9 +113,7 @@ class Html
                     // drop character
                     $i ++;
                 }
-                if($i == $preI) {
-                    trigger_error('Parser error in _smarty_modifier_sanitize_tag');
-                }
+                assert('$i != $preI');
             }
 
             $ret .= '<';
