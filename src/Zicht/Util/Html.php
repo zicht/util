@@ -20,9 +20,12 @@ class Html
     public static function repair($html)
     {
         $ret = '';
+
+        $html = preg_replace('/&(?!(nbsp|amp|quot|apos|lt|gt|#x?\d+);)/', '&amp;', $html);
+
         for ($i = 0; $i < strlen($html);) {
             if ($html[$i] == '<') {
-                if (preg_match('/^<\/?\w+[^>]*?>/', substr($html, $i), $m)) {
+                if (preg_match('/^<\/?[a-z][\w-:]*[^>]*?>/i', substr($html, $i), $m)) {
                     $ret .= self::sanitizeTag($m[0]);
                     $i += strlen($m[0]);
                 } else {
@@ -85,8 +88,8 @@ class Html
             preg_match('/^\S+/', $tag, $m);
             $tagName = strtolower($m[0]);
 
-            $paragraphLevelElements = array('p', 'h6', 'h5', 'h4', 'h3', 'h2', 'h1');
-            $inlineElements = array('span', 'b', 'i', 'strong', 'em', 'a');
+            $paragraphLevelElements = array('p', 'h6', 'h5', 'h4', 'h3', 'h2', 'h1', 'table', 'li');
+            $inlineElements = array('span', 'b', 'i', 'u', 'span', 'strong', 'em', 'a');
             if (count($stack) && in_array($tagName, $paragraphLevelElements)) {
                 while (in_array(end($stack), array_merge($paragraphLevelElements, $inlineElements))) {
                     $ret .= '</' . array_pop($stack) . '>';
@@ -100,7 +103,7 @@ class Html
             }
             for ($i = strlen($m[0]); $i < strlen($tag);) {
                 $preI = $i;
-                while (ctype_space($tag[$i])) {
+                while (ctype_space($tag[$i]) && $i < $tag) {
                     $i++;
                 }
 
@@ -130,7 +133,7 @@ class Html
             if (count($attributes)) {
                 foreach ($attributes as $name => $value) {
                     $ret .= ' ';
-                    $ret .= sprintf('%s="%s"', $name, $value);
+                    $ret .= sprintf('%s="%s"', $name, str_replace('"', '&quot;', $value));
                 }
             }
             if ($isEmpty) {
