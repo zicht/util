@@ -20,7 +20,6 @@ class Html
     public static function repair($html)
     {
         $ret = '';
-        $tagCount = 0;
         for($i = 0; $i < strlen($html);) {
             if($html[$i] == '<') {
                 if(preg_match('/^<\/?\w+[^>]*?>/', substr($html, $i), $m)) {
@@ -42,7 +41,15 @@ class Html
     }
 
 
-    private static function sanitizeTag($tag, $resetStack = false) {
+    /**
+     * Helper to keep track of the tag stack in Html::repair()
+     *
+     * @param string $tag
+     * @param bool $resetStack
+     * @return string|array
+     */
+    private static function sanitizeTag($tag, $resetStack = false)
+    {
         static $stack = array();
         if($resetStack) {
             $ret = $stack;
