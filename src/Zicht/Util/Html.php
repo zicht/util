@@ -2,125 +2,140 @@
 /**
  * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
- *
- * Tries to repair a piece of html based on what an SGML parser would do internally (more or less).
  */
- 
-function smarty_modifier_repair_html($html) {
-    $ret = '';
-    $tagCount = 0;
-    for($i = 0; $i < strlen($html);) {
-        if($html[$i] == '<') {
-            if(preg_match('/^<\/?\w+[^>]*?>/', substr($html, $i), $m)) {
-                $ret .= _smarty_modifier_sanitize_tag($m[0]);
-                $i += strlen($m[0]);
-            } else { // assume unclosed tag, escape content.
-                $ret .= '&lt;';
-                $i ++;
-            }
-        } else {
-            $ret .= $html[$i];
-            $i ++;
-        }
-    }
-    foreach(array_reverse(_smarty_modifier_sanitize_tag(null, true)) as $unclosed) {
-        $ret .= '</' . $unclosed . '>';
-    }
-    return $ret;
-}
 
+namespace Zicht\Util;
 
-
-function _smarty_modifier_sanitize_tag($tag, $resetStack = false) {
-    static $stack = array();
-    if($resetStack) {
-        $ret = $stack;
-        $stack = array();
-        return $ret;
-    }
-
-    $tag = substr($tag, 1, -1); // strip off leading '<' and trailing '>'
-    if($tag[0] == '/') {
-        preg_match('/^\s*\w+/', substr($tag, 1), $m);
-        $closingTag = strtolower($m[0]);
-        $localStack = array();
-
-        do {
-            if(!count($stack)) {
-                $stack = array_reverse($localStack);
-                // tag was never opened. Drop closing tag
-                return '';
-            }
-            $top = array_pop($stack);
-            $localStack[]= $top;
-        } while(strtolower($top) != $closingTag);
+/**
+ * Html utils
+ */
+class Html
+{
+    /**
+     * Tries to repair a piece of html based on what an SGML parser would do internally (more or less).
+     *
+     * @param string $html
+     * @return string
+     */
+    public static function repair($html)
+    {
         $ret = '';
-        foreach($localStack as $needClose) {
-            $ret .= '</' . $needClose . '>';
-        }
-
-        return $ret;
-    } else {
-        $ret = '';
-        $attributes = array();
-        preg_match('/^\S+/', $tag, $m);
-        $tagName = strtolower($m[0]);
-
-        $paragraphLevelElements = array('p', 'h6', 'h5', 'h4', 'h3', 'h2', 'h1');
-        $inlineElements = array('span', 'b', 'i', 'strong', 'em', 'a');
-        if(count($stack) && in_array($tagName, $paragraphLevelElements)) {
-            while(in_array(end($stack), array_merge($paragraphLevelElements, $inlineElements))) {
-                $ret .= '</' . array_pop($stack) . '>';
-            }
-        }
-
-        if(substr($tag, -1) == '/') {
-            $isEmpty = true;
-        } else {
-            $isEmpty = in_array($tagName, array('br', 'img', 'input'));
-        }
-        for($i = strlen($m[0]); $i < strlen($tag);) {
-            $preI = $i;
-            while(ctype_space($tag[$i]))
-                $i ++;
-
-            $chunk = substr($tag, $i);
-
-            if(preg_match('/^([\w-]+)\s*=\s*\"([^"]*)\"?/', $chunk, $m)) {
-                $attributes[$m[1]]= $m[2];
-                $i += strlen($m[0]);
-            } elseif(preg_match('/^([\w-]+)\s*=\s*\'([^\']*)\'?/', $chunk, $m)) {
-                $attributes[$m[1]]= $m[2];
-                $i += strlen($m[0]);
-            } elseif(preg_match('/^([\w-]+)=(\S+)/', $chunk, $m)) {
-                $attributes[$m[1]]= $m[2];
-                $i += strlen($m[0]);
-            } elseif(preg_match('/^(\w+)/', $chunk, $m)) {
-                $attributes[$m[1]] = $m[1];
-                $i += strlen($m[0]);
+        $tagCount = 0;
+        for($i = 0; $i < strlen($html);) {
+            if($html[$i] == '<') {
+                if(preg_match('/^<\/?\w+[^>]*?>/', substr($html, $i), $m)) {
+                    $ret .= self::sanitizeTag($m[0]);
+                    $i += strlen($m[0]);
+                } else { // assume unclosed tag, escape content.
+                    $ret .= '&lt;';
+                    $i ++;
+                }
             } else {
-                // drop character
+                $ret .= $html[$i];
                 $i ++;
             }
-            if($i == $preI) {
-                trigger_error('Parser error in _smarty_modifier_sanitize_tag');
-            }
         }
-
-        $ret .= '<';
-        $ret .= $tagName;
-        if(count($attributes)) {
-            foreach($attributes as $name => $value) {
-                $ret .= ' ';
-                $ret .= sprintf('%s="%s"', $name, $value);
-            }
+        foreach(array_reverse(self::sanitizeTag(null, true)) as $unclosed) {
+            $ret .= '</' . $unclosed . '>';
         }
-        if($isEmpty) {
-            $ret .= ' /';
-        } else {
-            $stack[]= $tagName;
-        }
-        $ret .= '>';
         return $ret;
     }
+
+
+    private static function sanitizeTag($tag, $resetStack = false) {
+        static $stack = array();
+        if($resetStack) {
+            $ret = $stack;
+            $stack = array();
+            return $ret;
+        }
+
+        $tag = substr($tag, 1, -1); // strip off leading '<' and trailing '>'
+        if($tag[0] == '/') {
+            preg_match('/^\s*\w+/', substr($tag, 1), $m);
+            $closingTag = strtolower($m[0]);
+            $localStack = array();
+
+            do {
+                if(!count($stack)) {
+                    $stack = array_reverse($localStack);
+                    // tag was never opened. Drop closing tag
+                    return '';
+                }
+                $top = array_pop($stack);
+                $localStack[]= $top;
+            } while(strtolower($top) != $closingTag);
+            $ret = '';
+            foreach($localStack as $needClose) {
+                $ret .= '</' . $needClose . '>';
+            }
+
+            return $ret;
+        } else {
+            $ret = '';
+            $attributes = array();
+            preg_match('/^\S+/', $tag, $m);
+            $tagName = strtolower($m[0]);
+
+            $paragraphLevelElements = array('p', 'h6', 'h5', 'h4', 'h3', 'h2', 'h1');
+            $inlineElements = array('span', 'b', 'i', 'strong', 'em', 'a');
+            if(count($stack) && in_array($tagName, $paragraphLevelElements)) {
+                while(in_array(end($stack), array_merge($paragraphLevelElements, $inlineElements))) {
+                    $ret .= '</' . array_pop($stack) . '>';
+                }
+            }
+
+            if(substr($tag, -1) == '/') {
+                $isEmpty = true;
+            } else {
+                $isEmpty = in_array($tagName, array('br', 'img', 'input'));
+            }
+            for($i = strlen($m[0]); $i < strlen($tag);) {
+                $preI = $i;
+                while(ctype_space($tag[$i]))
+                    $i ++;
+
+                $chunk = substr($tag, $i);
+
+                if(preg_match('/^([\w-]+)\s*=\s*\"([^"]*)\"?/', $chunk, $m)) {
+                    $attributes[$m[1]]= $m[2];
+                    $i += strlen($m[0]);
+                } elseif(preg_match('/^([\w-]+)\s*=\s*\'([^\']*)\'?/', $chunk, $m)) {
+                    $attributes[$m[1]]= $m[2];
+                    $i += strlen($m[0]);
+                } elseif(preg_match('/^([\w-]+)=(\S+)/', $chunk, $m)) {
+                    $attributes[$m[1]]= $m[2];
+                    $i += strlen($m[0]);
+                } elseif(preg_match('/^(\w+)/', $chunk, $m)) {
+                    $attributes[$m[1]] = $m[1];
+                    $i += strlen($m[0]);
+                } else {
+                    // drop character
+                    $i ++;
+                }
+                if($i == $preI) {
+                    trigger_error('Parser error in _smarty_modifier_sanitize_tag');
+                }
+            }
+
+            $ret .= '<';
+            $ret .= $tagName;
+            if(count($attributes)) {
+                foreach($attributes as $name => $value) {
+                    $ret .= ' ';
+                    $ret .= sprintf('%s="%s"', $name, $value);
+                }
+            }
+            if($isEmpty) {
+                $ret .= ' /';
+            } else {
+                $stack[]= $tagName;
+            }
+            $ret .= '>';
+            return $ret;
+        }
+    }
 }
+
+
+

@@ -4,54 +4,20 @@
  * @copyright Zicht Online <http://zicht.nl>
  */
 
+namespace ZichtTest\Util;
 
-class SmartyPluginsTest extends PHPUnit_Framework_Testcase {
-    function _loadPlugin($name, $type) {
-        if(!function_exists(sprintf('smarty_%s_%s', $type, $name))) {
-            require_once 'includes/helpers/smarty_plugins/' . $type . '.' . $name . '.php';
-        }
-    }
+use Zicht\Util\Html;
 
-
-    /**
-     * @dataProvider safe_escape
-     * @return void
-     */
-    function testSafeEscape($ampOnly, $in, $expect) {
-        $this->_loadPlugin('safe_escape', 'modifier');
-        $this->assertEquals($expect, smarty_modifier_safe_escape($in, $ampOnly));
-    }
-
+class HtmlTest extends \PHPUnit_Framework_TestCase
+{
     /**
      * @dataProvider repair_html
      * @param  $html
      * @return void
      */
-
     function testRepairHtml($in, $expect) {
-        $this->_loadPlugin('repair_html', 'modifier');
-        $this->assertEquals($expect, smarty_modifier_repair_html($in));
+        $this->assertEquals($expect, Html::repair($in));
     }
-
-
-
-    function safe_escape() {
-        return array(
-            array(true,     'lorem & ipsum',                'lorem &amp; ipsum'),
-            array(true,     'lorem &quot ipsum',            'lorem &amp;quot ipsum'),
-            array(true,     'lorem &amp; ipsum',            'lorem &amp; ipsum'),
-            array(true,     'lorem &amp; " ipsum',          'lorem &amp; " ipsum'),
-            array(true,     'lorem &amp; " <img> ipsum',    'lorem &amp; " <img> ipsum'),
-
-            array(false,    'lorem & ipsum',                'lorem &amp; ipsum'),
-            array(false,    'lorem &quot ipsum',            'lorem &amp;quot ipsum'),
-            array(false,    'lorem &amp; ipsum',            'lorem &amp; ipsum'),
-            array(false,    'lorem &amp; &quot; ipsum',     'lorem &amp; &quot; ipsum'),
-            array(false,    'lorem &amp; " ipsum',          'lorem &amp; &quot; ipsum'),
-            array(false,    'lorem &amp; " <img> ipsum',    'lorem &amp; &quot; &lt;img&gt; ipsum'),
-        );
-    }
-
 
     function repair_html() {
         $tests = array(
