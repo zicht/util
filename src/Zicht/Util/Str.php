@@ -183,4 +183,10 @@ class Str
             )
         );
     }
+
+
+    public static function dos2unix($str)
+    {
+        return str_replace("\r\n", "\n", $str);
+    }
 }
