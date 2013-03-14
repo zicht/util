@@ -14,14 +14,17 @@ class Html
     /**
      * Tries to repair a piece of html based on what an SGML parser would do internally (more or less).
      *
+     * Use the array to filter out unwanted elements. If not specified, it will do nothing.
+     *
      * @param string $html
+     * @param callback $allowed
      * @return string
      */
     public static function repair($html, $allowed = null)
     {
         $ret = '';
 
-        for ($i = 0; $i < strlen($html);) {
+        for ($i = 0; $i < strlen($html); true) {
             if ($html[$i] == '<') {
                 if (preg_match('/^<\/?[a-z][\w-:]*[^>]*?>/i', substr($html, $i), $m)) {
                     $ret .= self::sanitizeTag($m[0], $allowed);
@@ -58,6 +61,7 @@ class Html
      * Helper to keep track of the tag stack in Html::repair()
      *
      * @param string $tag
+     * @param array $allowed
      * @param bool $resetStack
      * @return string|array
      */
@@ -127,7 +131,7 @@ class Html
             } else {
                 $isEmpty = in_array($tagName, array('br', 'img', 'input', 'param', 'isindex', 'area'));
             }
-            for ($i = strlen($m[0]); $i < strlen($tag);) {
+            for ($i = strlen($m[0]); $i < strlen($tag); true) {
                 $preI = $i;
 
                 $chunk = substr($tag, $i);

@@ -185,7 +185,13 @@ class Str
     }
 
 
-    public static function dos2unix($str)
+    /**
+     * Replace CRLF with LF characters.
+     *
+     * @param string $str
+     * @return mixed
+     */
+    public static function dosToUnix($str)
     {
         return str_replace("\r\n", "\n", $str);
     }

@@ -6,8 +6,19 @@
 
 namespace Zicht\Util;
 
+/**
+ * File utils.
+ */
 class File
 {
+    /**
+     * Sanitize a file name, excluding unwanted characters and replacing them with a dash.
+     *
+     * @param string $fileName
+     * @param bool $stripPath
+     * @param int $maxLength
+     * @return string
+     */
     public static function sanitize($fileName, $stripPath = true, $maxLength = 120)
     {
         list($dirname, $name, $ext) = self::split($fileName);

@@ -6,14 +6,34 @@
 
 namespace Zicht\Util;
 
+/**
+ * Debugging / reporting utilities
+ */
 class Debug
 {
+    /**
+     * Returns all lines in a string as an array.
+     *
+     * @param string $str
+     * @return array
+     */
     public static function lines($str)
     {
-        preg_match_all('/^.*$/m', Str::dos2unix($str), $m);
+        preg_match_all('/^.*$/m', Str::dosToUnix($str), $m);
         return $m[0];
     }
 
+    /**
+     * Format the context of a line of code in the passed string prefixed with line numbers, e.g.:
+     *
+     * @param string $str
+     * @param int $lineNr
+     * @param int $numBefore
+     * @param int $numAfter
+     * @return string
+     *
+     * @throws \OutOfBoundsException
+     */
     public static function formatContext($str, $lineNr, $numBefore = 2, $numAfter = 2)
     {
         $lines = self::lines($str);
@@ -25,6 +45,13 @@ class Debug
     }
 
 
+    /**
+     * Indent a string with the specified indent
+     *
+     * @param string $str
+     * @param string $with
+     * @return string
+     */
     public static function indent($str, $with = '    ')
     {
         $newline = (substr($str, -1, 1) == "\n") ? "\n" : "";
@@ -32,6 +59,13 @@ class Debug
     }
 
 
+    /**
+     * Prefix all lines with a line number starting at the given number.
+     *
+     * @param array $lines
+     * @param int $prefixStart
+     * @return string
+     */
     public static function formatLines($lines, $prefixStart = 1)
     {
         $max = strlen((string)(count($lines) + $prefixStart));
