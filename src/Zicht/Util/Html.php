@@ -65,7 +65,7 @@ class Html
      * @param bool $resetStack
      * @return string|array
      */
-    private static function sanitizeTag($tag, array $allowed = null, $resetStack = false)
+    private static function sanitizeTag($tag, $allowed = null, $resetStack = false)
     {
         static $stack = array();
         if ($resetStack) {
@@ -104,7 +104,11 @@ class Html
             $attributes = array();
             preg_match('/^[\w-:]+/', $tag, $m);
             $tagName = strtolower($m[0]);
-            if (null !== $allowed && !array_key_exists($tagName, $allowed)) {
+            if (
+                null !== $allowed
+                && (is_array($allowed) && !array_key_exists($tagName, $allowed))
+                || (is_callable($allowed) && !call_user_func($allowed, $tagName, null, true))
+            ) {
                 return '<!-- ' . htmlspecialchars($tag) . ' -->';
             }
 
@@ -160,7 +164,9 @@ class Html
             if (count($attributes)) {
                 foreach ($attributes as $attrName => $value) {
                     $callback = null;
-                    if (is_array($allowed) && isset($allowed[$tagName]) && is_callable($allowed[$tagName])) {
+                    if (is_callable($allowed)) {
+                        $callback = $allowed;
+                    } elseif (is_array($allowed) && isset($allowed[$tagName]) && is_callable($allowed[$tagName])) {
                         $callback = $allowed[$tagName];
                     } elseif (is_array($allowed[$tagName]) && isset($allowed[$tagName][$attrName])) {
                         $callback = $allowed[$tagName][$attrName];

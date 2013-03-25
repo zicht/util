@@ -91,6 +91,14 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
                 )
             )
         );
+
+        $ret[]=array(
+            '<span style="foo" class="sugob">',
+            '<span style="oof" class="bogus"></span>',
+            function($tagName, $attr = null, $value = null) {
+                return strrev($value);
+            }
+        );
         $ret[]=array('< span>', '&lt; span>');
         $ret[]=array('<span    >', '<span></span>');
 
