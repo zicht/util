@@ -96,11 +96,17 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
             '<span style="foo" class="sugob">',
             '<span style="oof" class="bogus"></span>',
             function($tagName, $attr = null, $value = null) {
+                if (func_num_args() === 1) {
+                    return true;
+                }
                 return strrev($value);
             }
         );
         $ret[]=array('< span>', '&lt; span>');
         $ret[]=array('<span    >', '<span></span>');
+        $ret[]=array('<li>boo', '<ul><li>boo</li></ul>');
+        $ret[]=array('<ol><li>boo', '<ol><li>boo</li></ol>');
+        $ret[]=array('<p><li>boo', '<p></p><ul><li>boo</li></ul>');
 
         return $ret;
     }

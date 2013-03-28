@@ -14,7 +14,7 @@ class Html
     /**
      * Tries to repair a piece of html based on what an SGML parser would do internally (more or less).
      *
-     * Use the array to filter out unwanted elements. If not specified, it will do nothing.
+     * Use the callback to filter out unwanted elements. If not specified, it will keep all elements and attributes.
      *
      * @param string $html
      * @param callback $allowed
@@ -53,7 +53,11 @@ class Html
      */
     public static function sanitizeEntityReferences($html)
     {
-        return preg_replace('/&(?!(nbsp|amp|quot|apos|lt|gt|#x?\d+|([aeiouy](grave|acute)));)/', '&amp;', $html);
+        return preg_replace(
+            '/&(?!(nbsp|amp|quot|apos|copy|lt|gt|#x?\d+|([aeiouyAEIOUY](grave|acute|uml|circ|dash|tilde)));)/',
+            '&amp;',
+            $html
+        );
     }
 
 
@@ -80,7 +84,11 @@ class Html
             $closingTag = strtolower($m[0]);
             $localStack = array();
 
-            if (null !== $allowed && !array_key_exists($closingTag, $allowed)) {
+            if  (
+                null !== $allowed
+                && (is_array($allowed) && !array_key_exists($closingTag, $allowed))
+                || (is_callable($allowed) && !call_user_func($allowed, $closingTag))
+            ) {
                 return '<!-- ' . htmlspecialchars($tag) . ' -->';
             }
 
@@ -107,7 +115,7 @@ class Html
             if (
                 null !== $allowed
                 && (is_array($allowed) && !array_key_exists($tagName, $allowed))
-                || (is_callable($allowed) && !call_user_func($allowed, $tagName, null, true))
+                || (is_callable($allowed) && !call_user_func($allowed, $tagName))
             ) {
                 return '<!-- ' . htmlspecialchars($tag) . ' -->';
             }
@@ -115,6 +123,7 @@ class Html
             $paragraphLevelElements = array('p', 'h6', 'h5', 'h4', 'h3', 'h2', 'h1', 'table', 'ul', 'div');
             $inlineElements = array('span', 'b', 'i', 'u', 'span', 'strong', 'em', 'a');
             $selfClosingElements = array('li', 'td', 'th', 'tr');
+            $forcedParents = array('li' => array('ul', 'ol'));
 
             if (count($stack) && in_array($tagName, $paragraphLevelElements)) {
                 while (in_array(end($stack), array_merge($paragraphLevelElements, $inlineElements))) {
@@ -128,6 +137,17 @@ class Html
                 if (end($stack) === $tagName) {
                     $ret .= '</' . array_pop($stack) . '>';
                 }
+            }
+
+            if (array_key_exists($tagName, $forcedParents) && !in_array(end($stack), $forcedParents[$tagName])) {
+                // if the parent would close paragraph or inline elements, do it now.
+                if (count($stack) && in_array($forcedParents[$tagName][0], $paragraphLevelElements)) {
+                    while (in_array(end($stack), array_merge($paragraphLevelElements, $inlineElements))) {
+                        $ret .= '</' . array_pop($stack) . '>';
+                    }
+                }
+                $ret .= '<' . $forcedParents[$tagName][0] . '>';
+                $stack[]= $forcedParents[$tagName][0];
             }
 
             if (substr($tag, -1) == '/') {
