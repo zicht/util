@@ -81,11 +81,23 @@ class Str
      */
     public static function uscore($str)
     {
+        return self::infix($str, '_');
+    }
+
+
+    /**
+     * Converts a camelcased string to another separator
+     *
+     * @param string $str
+     * @return string
+     */
+    public static function infix($str, $infix)
+    {
         return lcfirst(
             preg_replace_callback(
                 '/(?<=.)[A-Z]/',
-                function ($m) {
-                    return '_' . strtolower($m[0]);
+                function ($m) use($infix) {
+                    return $infix . strtolower($m[0]);
                 },
                 $str
             )

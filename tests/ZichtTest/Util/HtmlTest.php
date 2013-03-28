@@ -126,4 +126,30 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
             array('bla & bla', 'bla &amp; bla')
         );
     }
+
+
+    /**
+     * @dataProvider is_empty_node_data
+     */
+    function testIsEmptyNode($contents, $expectEmpty)
+    {
+        $doc = new \DOMDocument();
+        $doc->loadHTML('<html><body><div>' . $contents . '</div></body></html>');
+
+        $node = $doc->getElementsByTagName('div')->item(0);
+        foreach ($node->childNodes as $node) {
+            $this->assertEquals($expectEmpty, Html::isEmptyNode($node));
+        }
+    }
+    function is_empty_node_data()
+    {
+        return array(
+            array(' ', true),
+            array('<p></p>', true),
+            array('<p> </p>', true),
+            array('<p><span></span></p>', true),
+            array('<p><span>  </span></p>', true),
+            array('<p><span>a</span></p>', false),
+        );
+    }
 }

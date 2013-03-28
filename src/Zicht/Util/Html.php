@@ -121,7 +121,7 @@ class Html
             }
 
             $paragraphLevelElements = array('p', 'h6', 'h5', 'h4', 'h3', 'h2', 'h1', 'table', 'ul', 'div');
-            $inlineElements = array('span', 'b', 'i', 'u', 'span', 'strong', 'em', 'a');
+            $inlineElements = array('span', 'b', 'i', 'u', 'span', 'strong', 'em', 'a', 'sup', 'sub');
             $selfClosingElements = array('li', 'td', 'th', 'tr');
             $forcedParents = array('li' => array('ul', 'ol'));
 
@@ -213,5 +213,35 @@ class Html
             $ret .= '>';
             return $ret;
         }
+    }
+
+
+    /**
+     * @param $node
+     * @return bool
+     */
+    public static function isWhitespace(\DOMNode $node)
+    {
+        return $node->nodeType === XML_TEXT_NODE && preg_match('/^[\s\x0a\xc2]*$/', $node->nodeValue);
+    }
+
+    /**
+     * @param $node DOMNode
+     */
+    public static function isEmptyNode($node)
+    {
+        $ret = true;
+        $elements = array('p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'strong', 'em', 'span', 'b', 'i', 'em', 'a');
+        if (in_array(strtolower($node->nodeName), $elements)) {
+            foreach ($node->childNodes as $node) {
+                if (!self::isEmptyNode($node) && !self::isWhitespace($node)) {
+                    $ret = false;
+                    break;
+                }
+            }
+        } else {
+            $ret = self::isWhitespace($node);
+        }
+        return $ret;
     }
 }
