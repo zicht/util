@@ -30,7 +30,7 @@ tasks:
 
 #    ci.phpcd: phpcd --log-pmd build/logs/pmd-cpd.xml src
 
-    ci.phpdox: phpdox
+#    ci.phpdox: phpdox
 
     ci.phpcb: phpcb --log build/logs --source src --output build/code-browser
 
