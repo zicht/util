@@ -4,7 +4,7 @@
 tasks:
     ci.build:
         pre: [ @ci.prepare ]
-        do: [ @ci.lint, @ci.pdepend, @ci.phpmd, @ci.phpcpd, @ci.phpcs, @ci.phploc, @ci.phpdox, @ci.phpunit, @ci.phpcb ]
+        do: [ @ci.lint, @ci.pdepend, @ci.phpmd, @ci.phpcs, @ci.phploc, @ci.phpdox, @ci.phpunit, @ci.phpcb ]
 
     ci.clean:
         do: rm -rf build/{api,code-browser,coverage,logs,pdepend}
@@ -28,7 +28,7 @@ tasks:
 
     ci.phpcs: phpcs --report=checkstyle --report-file=build/logs/checkstyle.xml --standard=Zicht src > /dev/null || true
 
-    ci.phpcd: phpcd --log-pmd build/logs/pmd-cpd.xml src
+#    ci.phpcd: phpcd --log-pmd build/logs/pmd-cpd.xml src
 
     ci.phpdox: phpdox
 
