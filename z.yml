@@ -1,1 +1,4 @@
 plugins: ['ci']
+
+ci:
+    phpdox: false
