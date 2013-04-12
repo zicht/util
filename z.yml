@@ -1,37 +1,3 @@
-# This file is more or less a copy of Sebastian Bergmann's build.xml on http://jenkins-php.org/
-# Credits go where credit's due.
+plugins: ['ci']
 
-tasks:
-    ci.build:
-        pre: [ @ci.prepare ]
-        do: [ @ci.lint, @ci.pdepend, @ci.phpmd, @ci.phpcs, @ci.phploc, @ci.phpdox, @ci.phpunit, @ci.phpcb ]
 
-    ci.clean:
-        do: rm -rf build/{api,code-browser,coverage,logs,pdepend}
-
-    ci.prepare: 
-        pre: @ci.clean
-        do: mkdir -p build/{api,code-browser,coverage,logs,pdepend}
-
-    ci.lint: find ./{src,tests} -type f -name "*php" -exec php -l '{}' \;
-
-    ci.phploc: phploc --log-csv build/logs/phploc.csv src
-
-    ci.pdepend: |
-        pdepend                                                     \
-            --jdepend-xml=build/logs/jdepend.xml                    \
-            --jdepend-chart=build/pdepend/dependencies.svg          \
-            --overview-pyramid=build/pdepend/overview-pyramid.svg   \
-            src
-
-    ci.phpmd: phpmd src xml phpmd.xml --reportfile build/logs/pmd.xml || true
-
-    ci.phpcs: phpcs --report=checkstyle --report-file=build/logs/checkstyle.xml --standard=Zicht src > /dev/null || true
-
-#    ci.phpcd: phpcd --log-pmd build/logs/pmd-cpd.xml src
-
-#    ci.phpdox: phpdox
-
-    ci.phpcb: phpcb --log build/logs --source src --output build/code-browser
-
-    ci.phpunit: phpunit
