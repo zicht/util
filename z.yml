@@ -1,1 +1,4 @@
 plugins: ['ci']
+
+tasks:
+    ci.build: { pre: "composer install --dev" }
