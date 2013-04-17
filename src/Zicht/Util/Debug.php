@@ -145,23 +145,20 @@ class Debug
     public static function dumpScalar($var, $maxValueLen)
     {
         $val = 'null';
-        switch (gettype($var)) {
-            case 'bool':
-            case 'boolean':
+        switch (true) {
+            case is_bool($var):
                 $val = ($var ? 'true' : 'false');
                 break;
-            case 'int':
-            case 'integer':
+            case is_integer($var):
                 $val = sprintf('%d', $var);
                 break;
-            case 'float':
-            case 'double':
+            case is_float($var):
                 $val = sprintf('%F', $var);
                 break;
-            case 'string':
+            case is_string($var):
                 $val = self::formatString($var, $maxValueLen);
                 break;
-            case 'resource':
+            case is_resource($var):
                 $val = 'resource (' . get_resource_type($var) . ')';
                 break;
         }
