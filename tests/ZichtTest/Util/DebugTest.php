@@ -134,4 +134,9 @@ class DebugTest extends \PHPUnit_Framework_TestCase
             ),
         );
     }
+
+
+    function testDumpScalarWillReportUnknownTypeIfNotScalar() {
+        $this->assertTrue((bool)preg_match('/unknown/', Debug::dumpScalar(array(), null)));
+    }
 }

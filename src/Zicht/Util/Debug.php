@@ -144,8 +144,10 @@ class Debug
      */
     public static function dumpScalar($var, $maxValueLen)
     {
-        $val = 'null';
         switch (true) {
+            case is_null($var):
+                $val = 'null';
+                break;
             case is_bool($var):
                 $val = ($var ? 'true' : 'false');
                 break;
@@ -160,6 +162,9 @@ class Debug
                 break;
             case is_resource($var):
                 $val = 'resource (' . get_resource_type($var) . ')';
+                break;
+            default:
+                $val = gettype($var) . ' (unknown scalar type)';
                 break;
         }
         return $val;
