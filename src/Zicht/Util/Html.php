@@ -84,7 +84,7 @@ class Html
             $closingTag = strtolower($m[0]);
             $localStack = array();
 
-            if  (
+            if (
                 null !== $allowed
                 && (is_array($allowed) && !array_key_exists($closingTag, $allowed))
                 || (is_callable($allowed) && !call_user_func($allowed, $closingTag))
@@ -217,7 +217,9 @@ class Html
 
 
     /**
-     * @param $node
+     * Checks if a domnode qualifies as whitespace.
+     *
+     * @param \DOMNode $node
      * @return bool
      */
     public static function isWhitespace(\DOMNode $node)
@@ -226,7 +228,10 @@ class Html
     }
 
     /**
-     * @param $node DOMNode
+     * Checks if the node qualifies as "empty", i.e. HTML whitespace, or useless elements, such as <code></code>
+     *
+     * @param \DOMNode $node
+     * @return bool
      */
     public static function isEmptyNode($node)
     {

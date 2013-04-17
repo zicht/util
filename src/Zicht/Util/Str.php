@@ -86,9 +86,10 @@ class Str
 
 
     /**
-     * Converts a camelcased string to another separator
+     * Converts a camelcased string to another separator, using 'infix' as the separator.
      *
      * @param string $str
+     * @param string $infix
      * @return string
      */
     public static function infix($str, $infix)
