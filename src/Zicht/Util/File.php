@@ -19,19 +19,24 @@ class File
      * @param int $maxLength
      * @return string
      */
-    public static function sanitize($fileName, $stripPath = true, $maxLength = 120)
+    public static function sanitize($fileName, $stripPath = true, $maxLength = 120, $defaultExtension = 'bin')
     {
         list($dirname, $name, $ext) = self::split($fileName);
 
         if (!$stripPath) {
-            return self::sanitize(str_replace('/', '-', ltrim($dirname, '/')) . '-' . $name . '.' .$ext);
+            $unslashedFilename = str_replace('/', '-', ltrim($dirname, '/')) . '-' . $name . '.' . $ext;
+            return self::sanitize($unslashedFilename, true, $maxLength);
         }
 
         if (!$ext) {
-            $ext = 'bin';
+            $ext = $defaultExtension;
+        }
+        $maxBaselength = $maxLength - 1 - strlen($ext);
+        if ($maxBaselength <= 0) {
+            throw new \InvalidArgumentException("Maxlength of {$maxLength} results in an empty filename");
         }
 
-        return substr(preg_replace('/[^\w.,-]/', '-', $name), 0) . '.' . $ext;
+        return substr(preg_replace('/[^\w.,-]/', '-', $name), 0, $maxBaselength) . '.' . $ext;
     }
 
 
