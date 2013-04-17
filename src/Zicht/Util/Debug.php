@@ -91,45 +91,41 @@ class Debug
      */
     public static function dump($var, $maxdepth = 10, $maxValueLen = 255, $stack = array())
     {
-        switch (gettype($var)) {
-            case 'array':
-            case 'object':
-                $ret = self::formatDumpStack($stack, $var);
+        if (is_object($var) || is_array($var)) {
+            $ret = self::formatDumpStack($stack, $var);
 
-                if ($maxdepth >= 0 && count($stack) == $maxdepth) {
-                    $ret .= ' (...)' . "\n";
+            if ($maxdepth >= 0 && count($stack) == $maxdepth) {
+                $ret .= ' (...)' . "\n";
+            } else {
+                if (is_array($var)) {
+                    $iter = $var;
+                    $notation = '[%s]';
                 } else {
-                    if (is_array($var)) {
-                        $iter = $var;
-                        $notation = '[%s]';
-                    } else {
-                        $iter = get_object_vars($var);
-                        $notation = '->%s';
-                    }
-                    if (count($iter) == 0) {
-                        $ret .= "(empty)\n";
-                    } else {
-                        $ret .= "\n";
+                    $iter = get_object_vars($var);
+                    $notation = '->%s';
+                }
+                if (count($iter) == 0) {
+                    $ret .= "(empty)\n";
+                } else {
+                    $ret .= "\n";
 
-                        $i = 0;
-                        foreach ($iter as $name => $value) {
-                            array_push($stack, sprintf($notation, $name));
-                            $ret .= self::dump($value, $maxdepth, $maxValueLen, $stack);
-                            array_pop($stack);
-                            $i++;
-                        }
+                    $i = 0;
+                    foreach ($iter as $name => $value) {
+                        array_push($stack, sprintf($notation, $name));
+                        $ret .= self::dump($value, $maxdepth, $maxValueLen, $stack);
+                        array_pop($stack);
+                        $i++;
                     }
                 }
-                break;
-
-            default:
-                $val = self::dumpScalar($var, $maxValueLen);
-                if ($stack) {
-                    $ret = join('', $stack) . ' = ' . $val;
-                } else {
-                    $ret = $val;
-                }
-                $ret .= "\n";
+            }
+        } else {
+            $val = self::dumpScalar($var, $maxValueLen);
+            if ($stack) {
+                $ret = join('', $stack) . ' = ' . $val;
+            } else {
+                $ret = $val;
+            }
+            $ret .= "\n";
         }
         return $ret;
     }
