@@ -1,4 +1,4 @@
 plugins: ['ci']
 
 tasks:
-    ci.build: { pre: "composer install --dev" }
+    ci.phpunit: { pre: "composer install --dev" }
