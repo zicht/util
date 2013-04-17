@@ -1,4 +1,4 @@
 plugins: ['ci']
 
 ci:
-    phpdox: false
+    phpdox: true
