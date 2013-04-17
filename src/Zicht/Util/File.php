@@ -17,7 +17,10 @@ class File
      * @param string $fileName
      * @param bool $stripPath
      * @param int $maxLength
+     * @param string $defaultExtension
      * @return string
+     *
+     * @throws \InvalidArgumentException
      */
     public static function sanitize($fileName, $stripPath = true, $maxLength = 120, $defaultExtension = 'bin')
     {
