@@ -105,7 +105,7 @@ class DebugTest extends \PHPUnit_Framework_TestCase
             array('1.010000', 1.01),
             array('1.010000', 1.01),
             array('resource (stream)', fopen(__FILE__, 'r')),
-            array('"b" ... (3 more)"', 'blah', null, 1),
+            array('"b" ... (3 more)', 'blah', null, 1),
             array(
                 "<array(2)>\n"
                 . "[0] = \"a\"\n"

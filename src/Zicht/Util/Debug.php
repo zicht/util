@@ -178,15 +178,12 @@ class Debug
      */
     public static function formatString($var, $maxValueLen)
     {
-        $val = '"'
-            . (
-            strlen($var) > $maxValueLen
-                ? substr($var, 0, $maxValueLen)
-                . '" ... (' . (strlen($var) - $maxValueLen) . ' more)'
-                : $var
-            )
-            . '"';
-
+        $val = '"';
+        if (strlen($var) > $maxValueLen) {
+            $val .= substr($var, 0, $maxValueLen) . '" ... (' . (strlen($var) - $maxValueLen) . ' more)';
+        } else {
+            $val .= $var . '"';
+        }
         return $val;
     }
 
