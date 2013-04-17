@@ -159,19 +159,34 @@ class Debug
                 $val = sprintf('%F', $var);
                 break;
             case 'string':
-                $val = '"'
-                    . (
-                    strlen($var) > $maxValueLen
-                        ? substr($var, 0, $maxValueLen)
-                        . '" ... (' . (strlen($var) - $maxValueLen) . ' more)'
-                        : $var
-                    )
-                    . '"';
+                $val = self::formatString($var, $maxValueLen);
                 break;
             case 'resource':
                 $val = 'resource (' . get_resource_type($var) . ')';
                 break;
         }
+        return $val;
+    }
+
+
+    /**
+     * Format a string for dump output
+     *
+     * @param string $var
+     * @param int $maxValueLen
+     * @return string
+     */
+    public static function formatString($var, $maxValueLen)
+    {
+        $val = '"'
+            . (
+            strlen($var) > $maxValueLen
+                ? substr($var, 0, $maxValueLen)
+                . '" ... (' . (strlen($var) - $maxValueLen) . ' more)'
+                : $var
+            )
+            . '"';
+
         return $val;
     }
 
