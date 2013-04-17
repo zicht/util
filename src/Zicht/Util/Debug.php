@@ -94,14 +94,7 @@ class Debug
         switch (gettype($var)) {
             case 'array':
             case 'object':
-                $ret = '';
-
-                $ret .= (count($stack) ? join('', $stack) : '');
-                $ret .= '<' .  (
-                            is_array($var)
-                                ? 'array(' . count($var) . ')'
-                                : get_class($var)
-                        ) . '>';
+                $ret = self::formatDumpStack($stack, $var);
 
                 if ($maxdepth >= 0 && count($stack) == $maxdepth) {
                     $ret .= ' (...)' . "\n";
@@ -130,35 +123,7 @@ class Debug
                 break;
 
             default:
-                $val = 'null';
-                switch (gettype($var)) {
-                    case 'bool':
-                    case 'boolean':
-                        $val = ($var ? 'true' : 'false');
-                        break;
-                    case 'int':
-                    case 'integer':
-                        $val = sprintf('%d', $var);
-                        break;
-                    case 'float':
-                    case 'double':
-                        $val = sprintf('%F', $var);
-                        break;
-                    case 'string':
-                        $val = '"'
-                            . (
-                                strlen($var) > $maxValueLen
-                                    ? substr($var, 0, $maxValueLen)
-                                        . '" ... (' . (strlen($var) - $maxValueLen) . ' more)'
-                                    : $var
-                            )
-                            . '"'
-                        ;
-                        break;
-                    case 'resource':
-                        $val = 'resource (' . get_resource_type($var) . ')';
-                        break;
-                }
+                $val = self::dumpScalar($var, $maxValueLen);
                 if ($stack) {
                     $ret = join('', $stack) . ' = ' . $val;
                 } else {
@@ -166,6 +131,67 @@ class Debug
                 }
                 $ret .= "\n";
         }
+        return $ret;
+    }
+
+
+    /**
+     * Dumps a scalar value.
+     *
+     * @param mixed $var
+     * @param int $maxValueLen
+     * @return string
+     */
+    public static function dumpScalar($var, $maxValueLen)
+    {
+        $val = 'null';
+        switch (gettype($var)) {
+            case 'bool':
+            case 'boolean':
+                $val = ($var ? 'true' : 'false');
+                break;
+            case 'int':
+            case 'integer':
+                $val = sprintf('%d', $var);
+                break;
+            case 'float':
+            case 'double':
+                $val = sprintf('%F', $var);
+                break;
+            case 'string':
+                $val = '"'
+                    . (
+                    strlen($var) > $maxValueLen
+                        ? substr($var, 0, $maxValueLen)
+                        . '" ... (' . (strlen($var) - $maxValueLen) . ' more)'
+                        : $var
+                    )
+                    . '"';
+                break;
+            case 'resource':
+                $val = 'resource (' . get_resource_type($var) . ')';
+                break;
+        }
+        return $val;
+    }
+
+
+    /**
+     * Formats a stack prefix
+     *
+     * @param array $stack
+     * @param string $var
+     * @return string
+     */
+    protected static function formatDumpStack($stack, $var)
+    {
+        $ret = (count($stack) ? join('', $stack) : '');
+        $ret .= '<' .  (
+                    is_array($var)
+                        ? 'array(' . count($var) . ')'
+                        : get_class($var)
+                ) . '>';
+
         return $ret;
     }
 }
