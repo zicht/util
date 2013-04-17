@@ -91,27 +91,31 @@ class Debug
      */
     public static function dump($var, $maxdepth = 10, $maxValueLen = 255, $stack = array())
     {
-        if (is_object($var) || is_array($var)) {
+        $children = $hierarchyNotation = null;
+
+        if (is_object($var)) {
+            $children = get_object_vars($var);
+            $hierarchyNotation = '->%s';
+        } elseif (is_array($var)) {
+            $children = $var;
+            $hierarchyNotation = '[%s]';
+        }
+
+
+        if (isset($children)) {
             $ret = self::formatDumpStack($stack, $var);
 
             if ($maxdepth >= 0 && count($stack) == $maxdepth) {
                 $ret .= ' (...)' . "\n";
             } else {
-                if (is_array($var)) {
-                    $iter = $var;
-                    $notation = '[%s]';
-                } else {
-                    $iter = get_object_vars($var);
-                    $notation = '->%s';
-                }
-                if (count($iter) == 0) {
+                if (count($children) == 0) {
                     $ret .= "(empty)\n";
                 } else {
                     $ret .= "\n";
 
                     $i = 0;
-                    foreach ($iter as $name => $value) {
-                        array_push($stack, sprintf($notation, $name));
+                    foreach ($children as $name => $value) {
+                        array_push($stack, sprintf($hierarchyNotation, $name));
                         $ret .= self::dump($value, $maxdepth, $maxValueLen, $stack);
                         array_pop($stack);
                         $i++;
