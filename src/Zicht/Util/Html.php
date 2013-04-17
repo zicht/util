@@ -176,7 +176,7 @@ class Html
                     // drop character
                     $i++;
                 }
-                assert('$i != $preI');
+                assert($i != $preI);
             }
 
             $ret .= '<';
