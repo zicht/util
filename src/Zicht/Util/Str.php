@@ -178,40 +178,6 @@ class Str
 
 
     /**
-     * Returns a systemized version of the string.
-     *
-     * @param string $str
-     * @param string $infix
-     * @return string
-     */
-    public static function systemize($str, $infix = '-')
-    {
-        $str = self::ascii($str);
-        return trim(
-            preg_replace(
-                '/' . preg_quote($infix, '/') . '+/',
-                $infix,
-                preg_replace('/[^\w-]+/', $infix, strtolower($str))
-            ),
-            $infix
-        );
-    }
-
-
-    /**
-     * Converts a text string to ASCII
-     *
-     * @param string $str
-     * @param string $srcEncoding
-     * @return string
-     */
-    public static function ascii($str, $srcEncoding = "UTF-8")
-    {
-        return iconv($srcEncoding, "ASCII//TRANSLIT", $str);
-    }
-
-
-    /**
      * Generate a random string with specified length from the specified characters
      *
      * @param int $length

@@ -60,15 +60,7 @@ class StrTest extends \PHPUnit_Framework_TestCase
             array('classname',   '', ''),
             array('classname',   'A', 'A'),
             array('classname',   'A\B', 'B'),
-            array('classname',   '\A\B', 'B'),
             array('humanize',    'one_flew_over_theCuckoos-nest', 'One flew over the cuckoos nest'),
-            array('systemize',   'w00t', 'w00t'),
-            array('systemize',   'foo bar', 'foo-bar'),
-            array('systemize',   'foo  bar', 'foo-bar'),
-            array('systemize',   'Foo  Bar', 'foo-bar'),
-            array('systemize',   '\'Foo  Bar', 'foo-bar'),
-            array('ascii',       'Hééél gek', 'Heeel gek'),
-            array('systemize',   'Hééél gek', 'heeel-gek')
         );
     }
 
