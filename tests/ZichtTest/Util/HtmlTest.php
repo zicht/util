@@ -46,8 +46,14 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
         $ret[]=array('<p>content<h5>header</h5>asdf</p>',          '<p>content</p><h5>header</h5>asdf');
 
         $ret[]=array('<p><b>content<h5>header</h5></p>',           '<p><b>content</b></p><h5>header</h5>');
-        $ret[]=array('<p><b><a href="some link">content<h5>header</h5></p>','<p><b><a href="some link">content</a></b></p><h5>header</h5>');
-        $ret[]=array('<p><b><a href=\'some link\'>content<h5>header</h5></p>','<p><b><a href="some link">content</a></b></p><h5>header</h5>');
+        $ret[]=array(
+            '<p><b><a href="some link">content<h5>header</h5></p>',
+            '<p><b><a href="some link">content</a></b></p><h5>header</h5>'
+        );
+        $ret[]=array(
+            '<p><b><a href=\'some link\'>content<h5>header</h5></p>',
+            '<p><b><a href="some link">content</a></b></p><h5>header</h5>'
+        );
         $ret[]=array('<p><b><a href=some link>content<h5>header</h5></p>','<p><b><a href="some" link="link">content</a></b></p><h5>header</h5>');
 
         $ret[]=array('<p><b>content<h5>header<br /><br /></h5></p>',           '<p><b>content</b></p><h5>header<br /><br /></h5>');
