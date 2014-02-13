@@ -6,22 +6,42 @@
 
 namespace Zicht\Util;
 
-use ArrayAccess;
+use \ArrayAccess;
 
 /**
  * URL Helper functions
  */
-class Url implements ArrayAccess {
+class Url implements ArrayAccess
+{
+    /** Constant to identify the 'scheme' part of an url */
     const SCHEME = 'scheme';
+
+    /** Constant to identify the 'user' part of an url */
     const USER = 'user';
+
+    /** Constant to identify the 'pass' part of an url */
     const PASS = 'pass';
+
+    /** Constant to identify the 'host' part of an url */
     const HOST = 'host';
+
+    /** Constant to identify the 'port' part of an url */
     const PORT = 'port';
+
+    /** Constant to identify the 'path' part of an url */
     const PATH = 'path';
+
+    /** Constant to identify the 'query' part of an url */
     const QUERY = 'query';
+
+    /** Constant to identify the 'fragment' part of an url */
     const FRAGMENT = 'fragment';
 
-
+    /**
+     * Contains all available url parts.
+     *
+     * @var array
+     */
     protected static $parts = array(
         self::SCHEME,
         self::USER,
@@ -33,12 +53,20 @@ class Url implements ArrayAccess {
         self::FRAGMENT
     );
 
+    /**
+     * Contains a hash of the components mapped to their values
+     *
+     * @var array
+     */
     private $components = array();
 
     /**
      * Setup the class with empty defaults
+     *
+     * @param string $url
      */
-    function __construct($url = null) {
+    public function __construct($url = null)
+    {
         $this->reset();
         if (!is_null($url)) {
             $this->setUrl($url);
@@ -49,9 +77,11 @@ class Url implements ArrayAccess {
     /**
      * Set and parse the url.
      *
-     * @param $url
+     * @param string $url
+     * @return void
      */
-    function setUrl($url) {
+    public function setUrl($url)
+    {
         $this->reset();
 
         foreach (parse_url($url) as $part => $value) {
@@ -65,7 +95,8 @@ class Url implements ArrayAccess {
      *
      * @return string
      */
-    function __toString() {
+    public function __toString()
+    {
         $ret = '';
         if (!empty($this[self::SCHEME])) {
             $ret .= $this[self::SCHEME];
@@ -105,10 +136,11 @@ class Url implements ArrayAccess {
     /**
      * Checks if the defined Url part exists.
      *
-     * @param $offset
+     * @param string $offset
      * @return bool
      */
-    public function offsetExists($offset) {
+    public function offsetExists($offset)
+    {
         return isset($this->components[$offset]);
     }
 
@@ -121,7 +153,8 @@ class Url implements ArrayAccess {
      * @return string
      * @throws \OutOfBoundsException
      */
-    public function offsetGet($offset) {
+    public function offsetGet($offset)
+    {
         if (!in_array($offset, self::$parts)) {
             throw new \OutOfBoundsException("$offset is not a valid url part");
         }
@@ -140,11 +173,14 @@ class Url implements ArrayAccess {
     /**
      * Set the specified URL part.
      *
-     * @throws \OutOfBoundsException If the specified part is not a valid URL part.
      * @param string $offset
      * @param mixed $value
+     * @return void
+     *
+     * @throws \OutOfBoundsException If the specified part is not a valid URL part.
      */
-    public function offsetSet($offset, $value) {
+    public function offsetSet($offset, $value)
+    {
         if ($offset == self::QUERY) {
             $parameters = array();
             parse_str($value, $parameters);
@@ -157,12 +193,13 @@ class Url implements ArrayAccess {
     /**
      * Set a URL part.
      *
-     * @param $part
-     * @param $value
-     * @return Url
+     * @param string $part
+     * @param mixed $value
+     * @return self
      * @throws \OutOfBoundsException
      */
-    public function set($part, $value) {
+    public function set($part, $value)
+    {
         if (!in_array($part, self::$parts)) {
             throw new \OutOfBoundsException("$part is not a valid url part");
         }
@@ -176,9 +213,11 @@ class Url implements ArrayAccess {
      * Returns a parameter from the query string. Allows an array to traverse a tree of key names.
      *
      * @param string|array $name
-     * @return null
+     * @param mixed $default
+     * @return mixed
      */
-    public function getParam($name, $default = null) {
+    public function getParam($name, $default = null)
+    {
         if (is_array($name)) {
             return TreeTools::getByPath($this->components[self::QUERY], $name);
         }
@@ -198,7 +237,8 @@ class Url implements ArrayAccess {
      * @param bool $replace
      * @return Url
      */
-    public function setParam($name, $value, $replace = true) {
+    public function setParam($name, $value, $replace = true)
+    {
         if (is_array($name)) {
             if (!isset($this->components[self::QUERY])) {
                 $this->components[self::QUERY] = array();
@@ -223,7 +263,8 @@ class Url implements ArrayAccess {
      * @return Url
      * @throws \InvalidArgumentException
      */
-    public function addParam($name, $value, $convertToArrayIfExists = false) {
+    public function addParam($name, $value, $convertToArrayIfExists = false)
+    {
         if (isset($this->components[self::QUERY][$name])) {
             if (!is_array($this->components[self::QUERY][$name])) {
                 if ($convertToArrayIfExists) {
@@ -244,8 +285,10 @@ class Url implements ArrayAccess {
      * Unsets the specified array component.
      *
      * @param string|array $offset
+     * @return void
      */
-    public function offsetUnset($offset) {
+    public function offsetUnset($offset)
+    {
         unset($this->components[$offset]);
     }
 
@@ -274,12 +317,13 @@ class Url implements ArrayAccess {
      * </code>
      *
      * @param array $vars
-     * @param string $parentName     Used internally for recursion
+     * @param string $parentName Used internally for recursion
      * @return array
      */
-    protected static function flattenRequestVars($vars, $parentName = '') {
+    protected static function flattenRequestVars($vars, $parentName = '')
+    {
         $ret = array();
-        $ignoreName = (($parentName != '') && array_keys($vars) === range(0, count($vars) -1));
+        $ignoreName = (($parentName != '') && array_keys($vars) === range(0, count($vars) - 1));
 
         foreach ($vars as $name => $value) {
             if ($ignoreName) {
@@ -304,11 +348,12 @@ class Url implements ArrayAccess {
      *
      * @param array $params
      * @param null $parent
-     * @param callback $encoder
+     * @param callable $encoder
      * @param bool $ignoreNonValues
      * @return string
      */
-    public static function queryString($params, $parent = null, $encoder = 'rawurlencode', $ignoreNonValues = true) {
+    public static function queryString($params, $parent = null, $encoder = 'rawurlencode', $ignoreNonValues = true)
+    {
         $params = self::flattenRequestVars($params, $parent);
         $ret = array();
         if ($encoder) {
@@ -332,8 +377,11 @@ class Url implements ArrayAccess {
 
     /**
      * Reset the components
+     *
+     * @return void
      */
-    private function reset() {
+    private function reset()
+    {
         $this->components = array();
     }
 }

@@ -252,6 +252,8 @@ class Html
 
 
     /**
+     * Creates HTML from a text string, typically for formatting comments.
+     *
      * @param string $text
      * @param null $mode
      * @return string
@@ -275,6 +277,12 @@ class Html
     }
 
 
+    /**
+     * Filter html
+     *
+     * @param string $text
+     * @return string
+     */
     public static function filter($text)
     {
         // All block level tags
