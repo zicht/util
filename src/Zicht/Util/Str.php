@@ -220,11 +220,16 @@ class Str
      */
     public static function random($length = 64, $characters = self::ALNUM)
     {
+        static $random_generator = null;
+        if (null === $random_generator) {
+            $random_generator = is_callable('mt_rand') ? 'mt_rand' : 'rand';
+        }
+
         $len = strlen($characters);
         return join('',
             array_map(
-                function() use($characters, $len) {
-                    return $characters{rand(0, $len -1)};
+                function() use($characters, $len, $random_generator) {
+                    return $characters{$random_generator(0, $len -1)};
                 },
                 range(0, $length -1)
             )

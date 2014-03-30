@@ -18,7 +18,7 @@ class TreeTools
      * @param array $path
      * @return null
      */
-    public static function getByPath($subject, array $path)
+    public static function getByPath($subject, array $path, $default = null)
     {
         $ptr =& $subject;
         foreach ($path as $key) {
@@ -27,7 +27,7 @@ class TreeTools
             } elseif (is_array($ptr) && isset($ptr[$key])) {
                 $ptr =& $ptr[$key];
             } else {
-                return null;
+                return $default;
             }
         }
         return $ptr;

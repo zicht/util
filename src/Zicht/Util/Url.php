@@ -68,7 +68,7 @@ class Url implements ArrayAccess
     public function __construct($url = null)
     {
         $this->reset();
-        if (!is_null($url)) {
+        if (null !== $url) {
             $this->setUrl($url);
         }
     }
@@ -219,7 +219,7 @@ class Url implements ArrayAccess
     public function getParam($name, $default = null)
     {
         if (is_array($name)) {
-            return TreeTools::getByPath($this->components[self::QUERY], $name);
+            return TreeTools::getByPath($this->components[self::QUERY], $name, $default);
         }
         if (isset($this->components[self::QUERY][$name])) {
             return $this->components[self::QUERY][$name];
@@ -348,19 +348,14 @@ class Url implements ArrayAccess
      *
      * @param array $params
      * @param null $parent
-     * @param callable $encoder
+     * @param string $callback
      * @param bool $ignoreNonValues
      * @return string
      */
-    public static function queryString($params, $parent = null, $encoder = 'rawurlencode', $ignoreNonValues = true)
+    public static function queryString($params, $parent = null, $callback = 'rawurlencode', $ignoreNonValues = true)
     {
         $params = self::flattenRequestVars($params, $parent);
         $ret = array();
-        if ($encoder) {
-            $callback = 'rawurlencode';
-        } else {
-            $callback = null;
-        }
         foreach ($params as $pair) {
             list($name, $value) = $pair;
             if (!$value && $ignoreNonValues) {
