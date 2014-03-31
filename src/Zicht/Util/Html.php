@@ -261,8 +261,9 @@ class Html
     public static function fromText($text, $mode = null)
     {
         $text = nl2br(htmlentities($text));
+
         $text = preg_replace_callback(
-            '!((https?\://|\b\www\.)[\S]+)!',
+            '!((https?\://|\b\www\.)[\S]+)(?=<)!',
             function($m) {
                 $url = $m[1];
                 $text = $m[1];
