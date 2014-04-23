@@ -44,7 +44,7 @@ class Mutex
      * value.
      *
      * If the lock file could not be opened, a \RuntimeException is thrown
-     * If the lock could not be acquired, false is returned.
+     * If the lock could not be acquired, false is returned, and the $run parameter will be set to false.
      * If the runner throws an exception, the lock is released and the exception is thrown after that.
      *
      * @param callable $runnable
@@ -71,6 +71,7 @@ class Mutex
             return false;
         }
         $exception = false;
+        $result = null;
         try {
             $result = call_user_func($runnable);
         } catch(\Exception $exception) {
