@@ -260,7 +260,7 @@ class Html
      */
     public static function fromText($text, $mode = null)
     {
-        $text = nl2br(htmlentities($text));
+        $text = nl2br(htmlentities($text, null, 'utf-8'));
 
         $text = preg_replace_callback(
             '!((https?\://|\b\www\.)[\S]+)(?=<)!',
