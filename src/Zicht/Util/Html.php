@@ -263,7 +263,7 @@ class Html
         $text = nl2br(htmlentities($text, null, 'utf-8'));
 
         $text = preg_replace_callback(
-            '!((https?\://|\b\www\.)[\S]+)(?=<)!',
+            '!((https?\://|\b\www\.)[^ )<]+)!',
             function($m) {
                 $url = $m[1];
                 $text = $m[1];
