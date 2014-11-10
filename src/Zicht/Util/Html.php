@@ -262,19 +262,25 @@ class Html
     {
         $text = nl2br(htmlentities($text, null, 'utf-8'));
 
-        $text = preg_replace_callback(
+        $text = self::createLinks($text);
+
+        return $text;
+    }
+
+    public static function createLinks($html)
+    {
+        return preg_replace_callback(
             '!((https?\://|\b\www\.)[^ )<]+)!',
             function($m) {
                 $url = $m[1];
-                $text = $m[1];
+                $html = $m[1];
                 if (!preg_match('/^https?:/', $url)) {
                     $url = 'http://' . $url;
                 }
-                return sprintf('<a href="%s">%s</a>', $url, $text);
+                return sprintf('<a href="%s">%s</a>', $url, $html);
             },
-            $text
+            $html
         );
-        return $text;
     }
 
 
