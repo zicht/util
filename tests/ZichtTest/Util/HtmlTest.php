@@ -152,4 +152,28 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
             array('<p><span>a</span></p>', false),
         );
     }
+
+
+    /**
+     * @dataProvider createLinks
+     */
+    function testCreateLinks($in, $out)
+    {
+        $this->assertEquals($out, Html::createLinks($in));
+    }
+
+
+    public function createLinks()
+    {
+        return array(
+            array('a www.example.org b', 'a <a href="http://www.example.org">www.example.org</a> b'),
+            array('a http://www.example.org b', 'a <a href="http://www.example.org">http://www.example.org</a> b'),
+            array('a http://www.example.org/foo.html b', 'a <a href="http://www.example.org/foo.html">http://www.example.org/foo.html</a> b'),
+            array('Over http://www.example.org/foo.html, het volgende', 'Over <a href="http://www.example.org/foo.html">http://www.example.org/foo.html</a>, het volgende'),
+            array('Kijk hier: http://www.example.org/foo.html.', 'Kijk hier: <a href="http://www.example.org/foo.html">http://www.example.org/foo.html</a>.'),
+            array('Kijk hier: http://www.example.org/foo.html. ', 'Kijk hier: <a href="http://www.example.org/foo.html">http://www.example.org/foo.html</a>. '),
+            array('Kijk hier: http://www.example.org/foo.html.twig ', 'Kijk hier: <a href="http://www.example.org/foo.html.twig">http://www.example.org/foo.html.twig</a> '),
+            array('Kijk hier: http://www.example.org/foo.html; en anderen', 'Kijk hier: <a href="http://www.example.org/foo.html">http://www.example.org/foo.html</a>; en anderen'),
+        );
+    }
 }
