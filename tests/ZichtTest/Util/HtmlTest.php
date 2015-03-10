@@ -174,6 +174,8 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
             array('Kijk hier: http://www.example.org/foo.html. ', 'Kijk hier: <a href="http://www.example.org/foo.html">http://www.example.org/foo.html</a>. '),
             array('Kijk hier: http://www.example.org/foo.html.twig ', 'Kijk hier: <a href="http://www.example.org/foo.html.twig">http://www.example.org/foo.html.twig</a> '),
             array('Kijk hier: http://www.example.org/foo.html; en anderen', 'Kijk hier: <a href="http://www.example.org/foo.html">http://www.example.org/foo.html</a>; en anderen'),
+            array('Kijk hier: http://www.example.org.<', 'Kijk hier: <a href="http://www.example.org">http://www.example.org</a>.<'),
+            array('Kijk hier: http://www.example.org. <', 'Kijk hier: <a href="http://www.example.org">http://www.example.org</a>. <'),
         );
     }
 }
