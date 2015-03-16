@@ -1,4 +1,7 @@
-plugins: ['ci']
+plugins: ['ci', 'svn']
+
+vcs:
+    url: svn://zon/projecten/zicht-libraries/ZichtUtil
 
 tasks:
     ci.phpunit: { pre: "composer install --dev" }
