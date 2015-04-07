@@ -176,25 +176,6 @@ class Str
         return ucfirst(strtolower(preg_replace('/[\W_]+/', ' ', self::uscore($str))));
     }
 
-    /**
-     * Returns a security ROLE_ representation for a string.
-     *
-     * For example:
-     * Str::rolenize('FooBarPage') --> 'ROLE_FOO_BAR_PAGE_VIEW'
-     * Str::rolenize('FooBarPage', 'create') --> 'ROLE_FOO_BAR_PAGE_CREATE'
-     *
-     * Or from a Page (from zicht/page-bundle) instance
-     * $page = FooBarPage();
-     * Str::rolenize(Str::classname($page->getType())) --> 'ROLE_FOO_BAR_PAGE_VIEW'
-     *
-     * @param $str
-     * @param string $role
-     * @return string
-     */
-    public static function rolenize($str, $role = 'VIEW')
-    {
-        return strtoupper(str_replace(array('__', '\\'), array('_', ''), sprintf('ROLE_%s_%s', preg_replace('/([A-Z][a-z0-9])/', '_\1', $str), $role)));
-    }
 
     /**
      * Returns a systemized version of the string.
