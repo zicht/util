@@ -47,7 +47,7 @@ final class Net
                 }
             }
 
-            return 4 === $matchcsv;
+            return 4 === $matchc;
         }
         return $ret;
     }
