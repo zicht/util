@@ -14,19 +14,13 @@ namespace Zicht\Util;
  */
 final class Net
 {
-    public static $PRIVATE_IPV4_RANGES = array(
-        // 10.0.0.0 ... 10.255.255.255
-        array(0x0a000000, 0x0affffff),
-        // 172.16.0.0 ... 172.31.255.255
-        array(0xac100000, 0xac1fffff),
-        // 192.168.0.0 ... 192.168.255.255
-        array(0xc0a80000, 0xc0a8ffff),
-        // 169.254.0.0 ... 169.254.255.255
-        array(0xa9fe0000, 0xa9feffff),
-        // 127.0.0.0 ... 127.255.255.255
-        array(0x7f000000, 0x7fffffff)
-    );
-
+    public static $PRIVATE_IPV4_RANGES = [
+        [[10, 0, 0, 0],      [10, 255, 255, 255]],
+        [[172, 16, 0, 0],    [172.31,255, 255]],
+        [[192, 168, 0, 0],   [192, 168, 255, 255]],
+        [[169, 254, 0, 0],   [169, 254, 255, 255]],
+        [[127, 0, 0, 0],     [127, 255, 255, 255]]
+    ];
 
     /**
      * Check if the given IPv4 address is local
@@ -38,20 +32,23 @@ final class Net
     {
         $ret = false;
 
-        $ipLong = ip2long($ip);
+        foreach (self::$PRIVATE_IPV4_RANGES as $range) {
+            list($start, $end) = $range;
 
-        if (false !== $ipLong) {
-            foreach (self::$PRIVATE_IPV4_RANGES as $range) {
-                list($start, $end) = $range;
+            $parts = array_map('intval', explode('.', $ip));
 
-                // IF IS PRIVATE
-                if ($ipLong >= $start && $ipLong <= $end) {
-                    $ret = true;
-                    break;
+            $matchc = 0;
+            foreach ($parts as $idx => $part) {
+                if ($part >= $start[$idx] && $part <= $end[$idx]) {
+                    $matchc ++;
+                    continue;
+                } else {
+                    continue 2;
                 }
             }
-        }
 
+            return 4 === $matchcsv;
+        }
         return $ret;
     }
 }
