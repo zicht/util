@@ -166,6 +166,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
     public function createLinks()
     {
         return array(
+            array('a www.example.org', 'a <a href="http://www.example.org">www.example.org</a>'),
             array('a www.example.org b', 'a <a href="http://www.example.org">www.example.org</a> b'),
             array('a http://www.example.org b', 'a <a href="http://www.example.org">http://www.example.org</a> b'),
             array('a http://www.example.org/foo.html b', 'a <a href="http://www.example.org/foo.html">http://www.example.org/foo.html</a> b'),
