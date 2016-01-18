@@ -187,6 +187,7 @@ class Str
     public static function systemize($str, $infix = '-')
     {
         $str = self::ascii($str);
+        // collapse soft hyphens.
         return trim(
             preg_replace(
                 '/' . preg_quote($infix, '/') . '+/',
@@ -207,6 +208,7 @@ class Str
      */
     public static function ascii($str, $srcEncoding = "UTF-8")
     {
+        $str = str_replace(html_entity_decode('&shy;', null, 'UTF-8'), '', $str);
         return iconv($srcEncoding, "ASCII//TRANSLIT", $str);
     }
 

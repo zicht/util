@@ -65,6 +65,7 @@ class StrTest extends \PHPUnit_Framework_TestCase
             array('systemize',   'w00t', 'w00t'),
             array('systemize',   'foo bar', 'foo-bar'),
             array('systemize',   'foo  bar', 'foo-bar'),
+            array('systemize',   html_entity_decode('foo&shy;bar', null, 'UTF-8'), 'foobar'),
             array('systemize',   'Foo  Bar', 'foo-bar'),
             array('systemize',   '\'Foo  Bar', 'foo-bar'),
             array('ascii',       'Hééél gek', 'Heeel gek'),
