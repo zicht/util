@@ -69,7 +69,11 @@ class StrTest extends \PHPUnit_Framework_TestCase
             array('systemize',   'Foo  Bar', 'foo-bar'),
             array('systemize',   '\'Foo  Bar', 'foo-bar'),
             array('ascii',       'Hééél gek', 'Heeel gek'),
-            array('systemize',   'Hééél gek', 'heeel-gek')
+            array('systemize',   'Hééél gek', 'heeel-gek'),
+            array('truncate',   'Kort', 10, 'Kort'),
+            array('truncate',   'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 10, 'ABCDEFG...'),
+            array('truncate',   'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 10, '--', 'ABCDEFGH--'),
+            array('truncate',   'ABCDEFGHIJ', 10, 'ABCDEFGHIJ'),
         );
     }
 

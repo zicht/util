@@ -152,6 +152,16 @@ class Str
     }
 
 
+    public static function truncate($str, $length, $postFix = '...')
+    {
+        if (strlen($str) <= $length) {
+            return $str;
+        }
+
+        return substr($str, 0, ($length - strlen($postFix))) . $postFix;
+    }
+
+
     /**
      * Returns a local class name
      *
