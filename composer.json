@@ -1,6 +1,7 @@
 {
      "name": "zicht/util",
      "description": "Low level utility classes",
+     "license": "MIT",
      "require": {"php": ">=5.3"},
      "authors": [{"name": "Gerard van Helden", "email": "gerard@zicht.nl"}],
      "autoload": {
