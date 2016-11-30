@@ -1,0 +1,7 @@
+tasks:
+    ci: 
+        pre: composer update
+        do:
+            - ./vendor/bin/phpcs --standard=vendor/zicht-standards/php/Zicht src
+            - ./vendor/bin/phpunit 
+        
