@@ -74,7 +74,7 @@ class Mutex
         $result = null;
         try {
             $result = call_user_func($runnable);
-        } catch(\Exception $exception) {
+        } catch (\Exception $exception) {
         }
 
         call_user_func($this->filesystem['flock'], $fd, LOCK_UN);

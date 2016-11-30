@@ -97,7 +97,7 @@ class Str
         return lcfirst(
             preg_replace_callback(
                 '/(?<=.)[A-Z]/',
-                function ($m) use($infix) {
+                function ($m) use ($infix) {
                     return $infix . strtolower($m[0]);
                 },
                 $str
@@ -152,6 +152,14 @@ class Str
     }
 
 
+    /**
+     * Truncate a string to a maximum length of $length, including the post fix
+     *
+     * @param string $str
+     * @param int $length
+     * @param string $postFix
+     * @return string
+     */
     public static function truncate($str, $length, $postFix = '...')
     {
         if (strlen($str) <= $length) {
@@ -233,14 +241,16 @@ class Str
     public static function random($length = 64, $characters = self::ALNUM)
     {
         static $random_generator = null;
+
         if (null === $random_generator) {
             $random_generator = is_callable('mt_rand') ? 'mt_rand' : 'rand';
         }
 
         $len = strlen($characters);
-        return join('',
+        return join(
+            '',
             array_map(
-                function() use($characters, $len, $random_generator) {
+                function () use ($characters, $len, $random_generator) {
                     return $characters{$random_generator(0, $len -1)};
                 },
                 range(0, $length -1)
@@ -263,9 +273,10 @@ class Str
     /**
      * Slugify a text.
      *
-     * @deprecated Please use Str::systemize()
      * @param string $text
      * @return string
+     *
+     * @deprecated Please use Str::systemize()
      */
     public static function slugify($text)
     {

@@ -16,6 +16,7 @@ class TreeTools
      *
      * @param string $subject
      * @param array $path
+     * @param mixed $default
      * @return null
      */
     public static function getByPath($subject, array $path, $default = null)

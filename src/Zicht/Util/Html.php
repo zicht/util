@@ -267,11 +267,17 @@ class Html
         return $text;
     }
 
+    /**
+     * Wraps al detectable 'http' and 'https' links with a <a href="...">...</a>
+     *
+     * @param string $html
+     * @return mixed
+     */
     public static function createLinks($html)
     {
         return preg_replace_callback(
             '!((?:https?\://|\b\www\.).*?)([.,;:]( |$|<)|[ )<]|$)!',
-            function($m) {
+            function ($m) {
                 $url = $m[1];
                 $html = $m[1];
                 if (!preg_match('/^https?:/', $url)) {
@@ -324,8 +330,8 @@ class Html
                             $ignore    = true;
                             $ignoretag = $tag;
                         }
-                    } // Only allow a matching tag to close it.
-                    else {
+                    } else {
+                        // Only allow a matching tag to close it.
                         if (!$open && $ignoretag == $tag) {
                             $ignore    = false;
                             $ignoretag = '';

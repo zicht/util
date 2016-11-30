@@ -6,12 +6,10 @@
 
 namespace Zicht\Util;
 
-use \ArrayAccess;
-
 /**
  * URL Helper functions
  */
-class Url implements ArrayAccess
+class Url implements \ArrayAccess
 {
     /** Constant to identify the 'scheme' part of an url */
     const SCHEME = 'scheme';

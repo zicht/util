@@ -28,8 +28,10 @@ final class Net
      * @param string $ip
      * @return bool
      */
+    // @codingStandardsIgnoreStart because of the 'naming' rule that numbers are discouraged in method names
     public static function isLocalIpv4($ip)
     {
+    // @codingStandardsIgnoreEnd
         $ret = false;
 
         foreach (self::$PRIVATE_IPV4_RANGES as $range) {
