@@ -227,7 +227,7 @@ class Str
     {
         // collapse soft hyphens.
         $str = str_replace(html_entity_decode('&shy;', null, 'UTF-8'), '', $str);
-        return iconv($srcEncoding, "ASCII//TRANSLIT", $str);
+        return transliterator_transliterate('Any-Latin;Latin-ASCII', $str);
     }
 
 
