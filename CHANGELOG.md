@@ -1,3 +1,7 @@
+# 1.9.0
+* Optional php7 support in composer (e4fdac99a4c1e558c9ebe8b7c1ca377c9ae57a7e)
+* Fix link generation with brackets (fc8cfe8b39e5437235814cc13e1210c51bbbb8aa)
+
 # 1.8.0
 * Replaces the `iconv` transliteration implementation with
   `transliterator_transliterate` from `intl`.
