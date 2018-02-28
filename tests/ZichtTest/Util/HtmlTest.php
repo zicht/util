@@ -166,6 +166,8 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
     public function createLinks()
     {
         return array(
+            array('a https://nl.wikipedia.org/wiki/Mineur_(leger)', 'a <a href="https://nl.wikipedia.org/wiki/Mineur_(leger)">https://nl.wikipedia.org/wiki/Mineur_(leger)</a>'),
+            array('a https://nl.wikipedia.org/wiki/Mineur_(leger) n', 'a <a href="https://nl.wikipedia.org/wiki/Mineur_(leger)">https://nl.wikipedia.org/wiki/Mineur_(leger)</a> n'),
             array('a www.example.org', 'a <a href="http://www.example.org">www.example.org</a>'),
             array('a www.example.org b', 'a <a href="http://www.example.org">www.example.org</a> b'),
             array('a http://www.example.org b', 'a <a href="http://www.example.org">http://www.example.org</a> b'),

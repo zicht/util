@@ -276,7 +276,7 @@ class Html
     public static function createLinks($html)
     {
         return preg_replace_callback(
-            '!((?:https?\://|\b\www\.).*?)([.,;:]( |$|<)|[ )<]|$)!',
+            '!((?:https?\://|\b\www\.).*?)([.,;:]( |$|<)|[ <]|$)!',
             function ($m) {
                 $url = $m[1];
                 $html = $m[1];
