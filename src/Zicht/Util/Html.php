@@ -71,10 +71,10 @@ class Html
      */
     private static function sanitizeTag($tag, $allowed = null, $resetStack = false)
     {
-        static $stack = array();
+        static $stack = [];
         if ($resetStack) {
             $ret = $stack;
-            $stack = array();
+            $stack = [];
             return $ret;
         }
 
@@ -82,10 +82,9 @@ class Html
         if ($tag[0] == '/') {
             preg_match('/^\w+/', substr($tag, 1), $m);
             $closingTag = strtolower($m[0]);
-            $localStack = array();
+            $localStack = [];
 
-            if (
-                null !== $allowed
+            if (null !== $allowed
                 && (is_array($allowed) && !array_key_exists($closingTag, $allowed))
                 || (is_callable($allowed) && !call_user_func($allowed, $closingTag))
             ) {
@@ -109,21 +108,20 @@ class Html
             return $ret;
         } else {
             $ret = '';
-            $attributes = array();
+            $attributes = [];
             preg_match('/^[\w-:]+/', $tag, $m);
             $tagName = strtolower($m[0]);
-            if (
-                null !== $allowed
+            if (null !== $allowed
                 && (is_array($allowed) && !array_key_exists($tagName, $allowed))
                 || (is_callable($allowed) && !call_user_func($allowed, $tagName))
             ) {
                 return '<!-- ' . htmlspecialchars($tag) . ' -->';
             }
 
-            $paragraphLevelElements = array('p', 'h6', 'h5', 'h4', 'h3', 'h2', 'h1', 'table', 'ul', 'div');
-            $inlineElements = array('span', 'b', 'i', 'u', 'span', 'strong', 'em', 'a', 'sup', 'sub');
-            $selfClosingElements = array('li', 'td', 'th', 'tr');
-            $forcedParents = array('li' => array('ul', 'ol'));
+            $paragraphLevelElements = ['p', 'h6', 'h5', 'h4', 'h3', 'h2', 'h1', 'table', 'ul', 'div'];
+            $inlineElements = ['span', 'b', 'i', 'u', 'span', 'strong', 'em', 'a', 'sup', 'sub'];
+            $selfClosingElements = ['li', 'td', 'th', 'tr'];
+            $forcedParents = ['li' => ['ul', 'ol']];
 
             if (count($stack) && in_array($tagName, $paragraphLevelElements)) {
                 while (in_array(end($stack), array_merge($paragraphLevelElements, $inlineElements))) {
@@ -147,13 +145,13 @@ class Html
                     }
                 }
                 $ret .= '<' . $forcedParents[$tagName][0] . '>';
-                $stack[]= $forcedParents[$tagName][0];
+                $stack[] = $forcedParents[$tagName][0];
             }
 
             if (substr($tag, -1) == '/') {
                 $isEmpty = true;
             } else {
-                $isEmpty = in_array($tagName, array('br', 'img', 'input', 'param', 'isindex', 'area'));
+                $isEmpty = in_array($tagName, ['br', 'img', 'input', 'param', 'isindex', 'area']);
             }
             for ($i = strlen($m[0]); $i < strlen($tag); true) {
                 $preI = $i;
@@ -236,7 +234,7 @@ class Html
     public static function isEmptyNode($node)
     {
         $ret = true;
-        $elements = array('p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'strong', 'em', 'span', 'b', 'i', 'em', 'a');
+        $elements = ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'strong', 'em', 'span', 'b', 'i', 'em', 'a'];
         if (in_array(strtolower($node->nodeName), $elements)) {
             foreach ($node->childNodes as $node) {
                 if (!self::isEmptyNode($node) && !self::isWhitespace($node)) {
@@ -313,9 +311,9 @@ class Html
         );
         // Note: PHP ensures the array consists of alternating delimiters and literals
         // and begins and ends with a literal (inserting NULL as required).
-        $ignore    = false;
+        $ignore = false;
         $ignoretag = '';
-        $output    = '';
+        $output = '';
         foreach ($chunks as $i => $chunk) {
             if ($i % 2) {
                 // Passthrough comments.
@@ -327,46 +325,34 @@ class Html
                     list($tag) = preg_split('/[ >]/', substr($chunk, 2 - $open), 2);
                     if (!$ignore) {
                         if ($open) {
-                            $ignore    = true;
+                            $ignore = true;
                             $ignoretag = $tag;
                         }
                     } else {
                         // Only allow a matching tag to close it.
                         if (!$open && $ignoretag == $tag) {
-                            $ignore    = false;
+                            $ignore = false;
                             $ignoretag = '';
                         }
                     }
                 }
             } else {
                 if (!$ignore) {
-                    $chunk = preg_replace(
-                        '|\n*$|',
-                        '',
-                        $chunk
-                    ) . "\n\n"; // just to make things a little easier, pad the end
+                    $chunk = preg_replace('|\n*$|', '', $chunk) . "\n\n"; // just to make things a little easier, pad the end
                     $chunk = preg_replace('|<br />\s*<br />|', "\n\n", $chunk);
                     $chunk = preg_replace('!(<' . $block . '[^>]*>)!', "\n$1", $chunk); // Space things out a little
                     $chunk = preg_replace('!(</' . $block . '>)!', "$1\n\n", $chunk); // Space things out a little
                     $chunk = preg_replace("/\n\n+/", "\n\n", $chunk); // take care of duplicates
                     $chunk = preg_replace('/^\n|\n\s*\n$/', '', $chunk);
-                    $chunk = '<p>' . preg_replace(
-                        '/\n\s*\n\n?(.)/',
-                        "</p>\n<p>$1",
-                        $chunk
-                    ) . "</p>\n"; // make paragraphs, including one at the end
-                    $chunk = preg_replace("|<p>(<li.+?)</p>|", "$1", $chunk); // problem with nested lists
-                    $chunk = preg_replace('|<p><blockquote([^>]*)>|i', "<blockquote$1><p>", $chunk);
+                    $chunk = '<p>' . preg_replace('/\n\s*\n\n?(.)/', "</p>\n<p>$1", $chunk) . "</p>\n"; // make paragraphs, including one at the end
+                    $chunk = preg_replace('|<p>(<li.+?)</p>|', '$1', $chunk); // problem with nested lists
+                    $chunk = preg_replace('|<p><blockquote([^>]*)>|i', '<blockquote$1><p>', $chunk);
                     $chunk = str_replace('</blockquote></p>', '</p></blockquote>', $chunk);
-                    $chunk = preg_replace(
-                        '|<p>\s*</p>\n?|',
-                        '',
-                        $chunk
-                    ); // under certain strange conditions it could create a P of entirely whitespace
-                    $chunk = preg_replace('!<p>\s*(</?' . $block . '[^>]*>)!', "$1", $chunk);
-                    $chunk = preg_replace('!(</?' . $block . '[^>]*>)\s*</p>!', "$1", $chunk);
+                    $chunk = preg_replace('|<p>\s*</p>\n?|', '', $chunk); // under certain strange conditions it could create a P of entirely whitespace
+                    $chunk = preg_replace('!<p>\s*(</?' . $block . '[^>]*>)!', '$1', $chunk);
+                    $chunk = preg_replace('!(</?' . $block . '[^>]*>)\s*</p>!', '$1', $chunk);
                     $chunk = preg_replace('|(?<!<br />)\s*\n|', "<br />\n", $chunk); // make line breaks
-                    $chunk = preg_replace('!(</?' . $block . '[^>]*>)\s*<br />!', "$1", $chunk);
+                    $chunk = preg_replace('!(</?' . $block . '[^>]*>)\s*<br />!', '$1', $chunk);
                     $chunk = preg_replace('!<br />(\s*</?(?:p|li|div|th|pre|td|ul|ol)>)!', '$1', $chunk);
                     $chunk = preg_replace('/&([^#])(?![A-Za-z0-9]{1,8};)/', '&amp;$1', $chunk);
                 }

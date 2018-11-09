@@ -37,9 +37,9 @@ class Debug
     public static function formatContext($str, $lineNr, $numBefore = 2, $numAfter = 2)
     {
         $lines = self::lines($str);
-        if (isset($lines[$lineNr -1])) {
-            $start = max(0, $lineNr -1 - $numBefore);
-            return self::formatLines(array_slice($lines, $start, $numBefore + $numAfter +1), $start +1);
+        if (isset($lines[$lineNr - 1])) {
+            $start = max(0, $lineNr - 1 - $numBefore);
+            return self::formatLines(array_slice($lines, $start, $numBefore + $numAfter + 1), $start + 1);
         }
         throw new \OutOfBoundsException("Line {$lineNr} is out of bounds");
     }
@@ -54,7 +54,7 @@ class Debug
      */
     public static function indent($str, $with = '    ')
     {
-        $newline = (substr($str, -1, 1) == "\n") ? "\n" : "";
+        $newline = (substr($str, -1, 1) == "\n") ? "\n" : '';
         return $with . join("\n" . $with, self::lines($str)) . $newline;
     }
 
@@ -89,7 +89,7 @@ class Debug
      * @param array $stack
      * @return string
      */
-    public static function dump($var, $maxdepth = 10, $maxValueLen = 255, $stack = array())
+    public static function dump($var, $maxdepth = 10, $maxValueLen = 255, $stack = [])
     {
         $children = $hierarchyNotation = null;
 
@@ -200,11 +200,11 @@ class Debug
     protected static function formatDumpStack($stack, $var)
     {
         $ret = (count($stack) ? join('', $stack) : '');
-        $ret .= '<' .  (
-                    is_array($var)
-                        ? 'array(' . count($var) . ')'
-                        : get_class($var)
-                ) . '>';
+        $ret .= '<' . (
+            is_array($var)
+                ? 'array(' . count($var) . ')'
+                : get_class($var)
+            ) . '>';
 
         return $ret;
     }

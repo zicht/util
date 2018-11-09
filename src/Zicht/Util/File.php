@@ -55,10 +55,10 @@ class File
     public static function split($fileName)
     {
         $ext = pathinfo($fileName);
-        return array(
+        return [
             $ext['dirname'],
             $ext['filename'],
             empty($ext['extension']) ? '' : $ext['extension']
-        );
+        ];
     }
 }

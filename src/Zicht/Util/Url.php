@@ -40,7 +40,7 @@ class Url implements \ArrayAccess
      *
      * @var array
      */
-    protected static $parts = array(
+    protected static $parts = [
         self::SCHEME,
         self::USER,
         self::PASS,
@@ -49,14 +49,14 @@ class Url implements \ArrayAccess
         self::PATH,
         self::QUERY,
         self::FRAGMENT
-    );
+    ];
 
     /**
      * Contains a hash of the components mapped to their values
      *
      * @var array
      */
-    private $components = array();
+    private $components = [];
 
     /**
      * Setup the class with empty defaults
@@ -180,7 +180,7 @@ class Url implements \ArrayAccess
     public function offsetSet($offset, $value)
     {
         if ($offset == self::QUERY) {
-            $parameters = array();
+            $parameters = [];
             parse_str($value, $parameters);
             $value = $parameters;
         }
@@ -239,7 +239,7 @@ class Url implements \ArrayAccess
     {
         if (is_array($name)) {
             if (!isset($this->components[self::QUERY])) {
-                $this->components[self::QUERY] = array();
+                $this->components[self::QUERY] = [];
             }
             TreeTools::setByPath($this->components[self::QUERY], $name, $value);
         } else {
@@ -266,13 +266,13 @@ class Url implements \ArrayAccess
         if (isset($this->components[self::QUERY][$name])) {
             if (!is_array($this->components[self::QUERY][$name])) {
                 if ($convertToArrayIfExists) {
-                    $this->components[self::QUERY][$name] = array($this->components[self::QUERY][$name]);
+                    $this->components[self::QUERY][$name] = [$this->components[self::QUERY][$name]];
                 } else {
                     throw new \InvalidArgumentException("$name is not an array");
                 }
             }
         } else {
-            $this->components[self::QUERY][$name] = array();
+            $this->components[self::QUERY][$name] = [];
         }
         $this->components[self::QUERY][$name][] = $value;
         return $this;
@@ -320,7 +320,7 @@ class Url implements \ArrayAccess
      */
     protected static function flattenRequestVars($vars, $parentName = '')
     {
-        $ret = array();
+        $ret = [];
         $ignoreName = (($parentName != '') && array_keys($vars) === range(0, count($vars) - 1));
 
         foreach ($vars as $name => $value) {
@@ -333,7 +333,7 @@ class Url implements \ArrayAccess
             if (is_array($value)) {
                 $ret = array_merge($ret, self::flattenRequestVars($value, $name));
             } else {
-                $ret[] = array($name, $value);
+                $ret[] = [$name, $value];
             }
         }
 
@@ -353,7 +353,7 @@ class Url implements \ArrayAccess
     public static function queryString($params, $parent = null, $callback = 'rawurlencode', $ignoreNonValues = true)
     {
         $params = self::flattenRequestVars($params, $parent);
-        $ret = array();
+        $ret = [];
         foreach ($params as $pair) {
             list($name, $value) = $pair;
             if (!$value && $ignoreNonValues) {
@@ -375,6 +375,6 @@ class Url implements \ArrayAccess
      */
     private function reset()
     {
-        $this->components = array();
+        $this->components = [];
     }
 }
