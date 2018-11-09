@@ -1,19 +1,46 @@
 {
-     "name": "zicht/util",
-     "description": "Low level utility classes",
-     "license": "MIT",
-     "require": {
-          "php": "^5.6 || ^7.0"
-     },
-     "suggest": {
-          "ext-intl": "For use of Str::ascii"
-     },
-     "require-dev": {
-          "phpunit/phpunit": "^5",
-          "zicht/phpcs": "^2.2"
-     },
-     "authors": [{"name": "Gerard van Helden", "email": "gerard@zicht.nl"}],
-     "autoload": {
-          "psr-0": { "": ["src/", "tests/"]}
-     }
+    "name": "zicht/util",
+    "description": "Low level utility classes",
+    "license": "MIT",
+    "scripts": {
+        "lint": [
+            "phpcs -s src/Zicht/ --standard=vendor/zicht/standards-php/Zicht --extensions=php -p --parallel=$(nproc)"
+        ],
+        "lint-fix": [
+            "phpcbf -s src/Zicht/ --standard=vendor/zicht/standards-php/Zicht --extensions=php --parallel=$(nproc)"
+        ],
+        "test": [
+            "phpunit -c phpunit.xml.dist"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Gerard van Helden",
+            "email": "gerard@zicht.nl"
+        }
+    ],
+    "require": {
+        "php": "^5.6 || ^7.0"
+    },
+    "suggest": {
+        "ext-intl": "For use of Str::ascii"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5",
+        "zicht/standards-php": "^3.2"
+    },
+    "autoload": {
+        "psr-0": {
+            "Zicht": [
+                "src/"
+            ]
+        }
+    },
+    "autoload-dev": {
+        "psr-0": {
+            "Zicht": [
+                "tests/"
+            ]
+        }
+    }
 }
