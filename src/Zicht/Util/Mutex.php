@@ -3,6 +3,7 @@
  * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht online <http://zicht.nl>
  */
+
 namespace Zicht\Util;
 
 /**
@@ -23,18 +24,18 @@ class Mutex
      * @param bool $blocking
      * @param array $filesystem Used to mock the filesystem for testing purposes
      */
-    public function __construct($file, $blocking = false, array $filesystem = array())
+    public function __construct($file, $blocking = false, array $filesystem = [])
     {
         $this->file = $file;
         $this->flags = LOCK_EX;
         if (!$blocking) {
             $this->flags |= LOCK_NB;
         }
-        $this->filesystem = $filesystem + array(
-            'fopen' => 'fopen',
-            'fclose' => 'fclose',
-            'flock' => 'flock'
-        );
+        $this->filesystem = $filesystem + [
+                'fopen' => 'fopen',
+                'fclose' => 'fclose',
+                'flock' => 'flock'
+            ];
     }
 
     /**

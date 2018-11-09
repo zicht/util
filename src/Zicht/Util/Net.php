@@ -15,11 +15,11 @@ namespace Zicht\Util;
 final class Net
 {
     public static $PRIVATE_IPV4_RANGES = [
-        [[10, 0, 0, 0],      [10, 255, 255, 255]],
-        [[172, 16, 0, 0],    [172, 31,255, 255]],
-        [[192, 168, 0, 0],   [192, 168, 255, 255]],
-        [[169, 254, 0, 0],   [169, 254, 255, 255]],
-        [[127, 0, 0, 0],     [127, 255, 255, 255]]
+        [[10, 0, 0, 0], [10, 255, 255, 255]],
+        [[172, 16, 0, 0], [172, 31, 255, 255]],
+        [[192, 168, 0, 0], [192, 168, 255, 255]],
+        [[169, 254, 0, 0], [169, 254, 255, 255]],
+        [[127, 0, 0, 0], [127, 255, 255, 255]]
     ];
 
     /**
@@ -31,7 +31,7 @@ final class Net
     // @codingStandardsIgnoreStart because of the 'naming' rule that numbers are discouraged in method names
     public static function isLocalIpv4($ip)
     {
-    // @codingStandardsIgnoreEnd
+        // @codingStandardsIgnoreEnd
         $ret = false;
 
         foreach (self::$PRIVATE_IPV4_RANGES as $range) {
@@ -42,7 +42,7 @@ final class Net
             $matchc = 0;
             foreach ($parts as $idx => $part) {
                 if ($part >= $start[$idx] && $part <= $end[$idx]) {
-                    $matchc ++;
+                    $matchc++;
                     continue;
                 } else {
                     continue 2;

@@ -49,12 +49,12 @@ class TreeTools
         foreach ($path as $key) {
             if (is_object($ptr)) {
                 if (!isset($ptr->$key)) {
-                    $ptr->$key = array();
+                    $ptr->$key = [];
                 }
                 $ptr =& $ptr->$key;
             } elseif (is_array($ptr)) {
                 if (!isset($ptr[$key])) {
-                    $ptr[$key] = array();
+                    $ptr[$key] = [];
                 }
                 $ptr =& $ptr[$key];
             }

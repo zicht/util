@@ -3,8 +3,8 @@
  * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
-namespace Zicht\Util;
 
+namespace Zicht\Util;
 
 /**
  * Utility functions for string formatting
@@ -223,7 +223,7 @@ class Str
      * @param string $srcEncoding
      * @return string
      */
-    public static function ascii($str, $srcEncoding = "UTF-8")
+    public static function ascii($str, $srcEncoding = 'UTF-8')
     {
         // collapse soft hyphens.
         $str = str_replace(html_entity_decode('&shy;', null, 'UTF-8'), '', $str);
@@ -251,9 +251,9 @@ class Str
             '',
             array_map(
                 function () use ($characters, $len, $random_generator) {
-                    return $characters{$random_generator(0, $len -1)};
+                    return $characters{$random_generator(0, $len - 1)};
                 },
-                range(0, $length -1)
+                range(0, $length - 1)
             )
         );
     }

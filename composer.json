@@ -23,6 +23,7 @@
         "php": "^5.6 || ^7.0"
     },
     "suggest": {
+        "ext-dom": "For use of Xml::format",
         "ext-intl": "For use of Str::ascii"
     },
     "require-dev": {
