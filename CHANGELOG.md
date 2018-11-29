@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 1.10.0
+### Added
+- `Cryptor` to do some basic and not too fancy encryption/decryption with `openssl`
+
 ## 1.9.1
 ### Fixed
 - Now using composer scripts for phpunit and linter
