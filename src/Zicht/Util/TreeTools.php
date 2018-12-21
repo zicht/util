@@ -37,7 +37,7 @@ class TreeTools
     /**
      * Set a property value by a path of property or key names.
      *
-     * @param mixed &$subject
+     * @param mixed $subject
      * @param array $path
      * @param mixed $value
      * @return mixed

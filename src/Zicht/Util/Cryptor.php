@@ -64,7 +64,6 @@ class Cryptor
     private $secret;
 
     /**
-     * Cryptor constructor.
      * @param string $secret
      */
     public function __construct(string $secret)

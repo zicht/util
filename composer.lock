@@ -1229,16 +1229,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.3.2",
+            "version": "3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "6ad28354c04b364c3c71a34e4a18b629cc3b231e"
+                "reference": "379deb987e26c7cd103a7b387aea178baec96e48"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/6ad28354c04b364c3c71a34e4a18b629cc3b231e",
-                "reference": "6ad28354c04b364c3c71a34e4a18b629cc3b231e",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/379deb987e26c7cd103a7b387aea178baec96e48",
+                "reference": "379deb987e26c7cd103a7b387aea178baec96e48",
                 "shasum": ""
             },
             "require": {
@@ -1276,7 +1276,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2018-09-23T23:08:17+00:00"
+            "time": "2018-12-19T23:57:18+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -1338,16 +1338,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v4.1.7",
+            "version": "v4.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "367e689b2fdc19965be435337b50bc8adf2746c9"
+                "reference": "c41175c801e3edfda90f32e292619d10c27103d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/367e689b2fdc19965be435337b50bc8adf2746c9",
-                "reference": "367e689b2fdc19965be435337b50bc8adf2746c9",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/c41175c801e3edfda90f32e292619d10c27103d7",
+                "reference": "c41175c801e3edfda90f32e292619d10c27103d7",
                 "shasum": ""
             },
             "require": {
@@ -1366,7 +1366,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.1-dev"
+                    "dev-master": "4.2-dev"
                 }
             },
             "autoload": {
@@ -1393,7 +1393,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2018-10-02T16:36:10+00:00"
+            "time": "2018-11-11T19:52:12+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -1447,20 +1447,23 @@
         },
         {
             "name": "zicht/standards-php",
-            "version": "3.3.1",
+            "version": "3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zicht/standards-php.git",
-                "reference": "4ca56fda2a14f214a9c676e2adc2bb9b46c49a49"
+                "reference": "3b39e5fe219f7d245ed57d3711d5028edbcbf6d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zicht/standards-php/zipball/4ca56fda2a14f214a9c676e2adc2bb9b46c49a49",
-                "reference": "4ca56fda2a14f214a9c676e2adc2bb9b46c49a49",
+                "url": "https://api.github.com/repos/zicht/standards-php/zipball/3b39e5fe219f7d245ed57d3711d5028edbcbf6d2",
+                "reference": "3b39e5fe219f7d245ed57d3711d5028edbcbf6d2",
                 "shasum": ""
             },
             "require": {
                 "squizlabs/php_codesniffer": "^3"
+            },
+            "require-dev": {
+                "phpcompatibility/php-compatibility": "^9.0"
             },
             "type": "library",
             "autoload": {
@@ -1477,7 +1480,7 @@
                 "MIT"
             ],
             "description": "Contains the Zicht PHP coding standards, including phpcs ruleset",
-            "time": "2018-10-30T12:56:43+00:00"
+            "time": "2018-12-07T13:22:52+00:00"
         }
     ],
     "aliases": [],

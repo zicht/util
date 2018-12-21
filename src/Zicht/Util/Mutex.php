@@ -17,8 +17,6 @@ namespace Zicht\Util;
 class Mutex
 {
     /**
-     * Construct the mutex
-     *
      * @param string $file
      * @param bool $blocking
      * @param array $filesystem Used to mock the filesystem for testing purposes
@@ -48,7 +46,7 @@ class Mutex
      * If the runner throws an exception, the lock is released and the exception is thrown after that.
      *
      * @param callable $runnable
-     * @param null &$ran
+     * @param null $ran
      * @return bool|mixed
      *
      * @throws \RuntimeException
