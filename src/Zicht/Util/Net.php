@@ -9,7 +9,6 @@ namespace Zicht\Util;
 /**
  * Some utilities regarding networking
  *
- * @package Zicht\Util
  */
 final class Net
 {

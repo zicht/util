@@ -288,8 +288,6 @@ class Html
 
 
     /**
-     * Filter html
-     *
      * @param string $text
      * @return string
      */
