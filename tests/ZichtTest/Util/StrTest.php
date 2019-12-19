@@ -97,7 +97,7 @@ class StrTest extends \PHPUnit_Framework_TestCase
             foreach (array(Str::ALNUM, Str::ALNUM_SAFE, Str::ALPHA, Str::NUMERIC, Str::HEX) as $src) {
                 $str = Str::random(10, $src);
                 for ($j = 0; $j < strlen($str); $j ++) {
-                    $this->assertTrue(false !== strpos($src, $str{$j}));
+                    $this->assertTrue(false !== strpos($src, $str[$j]));
                 }
             }
         }

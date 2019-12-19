@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 1.10.2 - 2019-12-19
+### Fixed
+- PHP 7.4 curly brace string offset access deprecation
+
 ## 1.10.1 - 2018-12-21
 ### Fixed
 - Update `composer.lock`.
