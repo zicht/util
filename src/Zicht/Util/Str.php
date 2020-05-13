@@ -281,4 +281,33 @@ class Str
     {
         return self::systemize($text);
     }
+
+    /**
+     * Given an array of strings, returns the common string prefix
+     *
+     * For example:
+     * > Str::commonPrefix(['Hello Annemieke', 'Hello Boudewijn', 'Hello Erik']) -> 'Hello '
+     *
+     * @param string[] $values
+     * @return string
+     */
+    public static function commonPrefix($values)
+    {
+        $namesCount = sizeof($values);
+
+        if ($namesCount === 0) {
+            return '';
+        }
+
+        $commonPrefix = $values[0];
+        for ($index = 1; $index < $namesCount; $index++) {
+            $max = min(strlen($commonPrefix), strlen($values[$index]));
+            for ($length = 0; $length < $max && $commonPrefix[$length] == $values[$index][$length]; $length++) {
+                // pass
+            };
+            $commonPrefix = substr($commonPrefix, 0, $length);
+        }
+
+        return $commonPrefix;
+    }
 }
