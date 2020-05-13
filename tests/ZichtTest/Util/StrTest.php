@@ -75,6 +75,13 @@ class StrTest extends \PHPUnit_Framework_TestCase
             array('truncate',   'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 10, 'ABCDEFG...'),
             array('truncate',   'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 10, '--', 'ABCDEFGH--'),
             array('truncate',   'ABCDEFGHIJ', 10, 'ABCDEFGHIJ'),
+            array('commonPrefix', array(), ''),
+            array('commonPrefix', array(''), ''),
+            array('commonPrefix', array('', ''), ''),
+            array('commonPrefix', array('foo'), 'foo'),
+            array('commonPrefix', array('foo', 'bar'), ''),
+            array('commonPrefix', array('foo', 'f'), 'f'),
+            array('commonPrefix', array('foo', 'fa', 'foo'), 'f'),
         );
     }
 
