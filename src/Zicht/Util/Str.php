@@ -286,7 +286,7 @@ class Str
      * Given an array of strings, returns the common string prefix
      *
      * For example:
-     * > getCommonPrefix(['Hello Annemieke', 'Hello Boudewijn', 'Hello Erik']) -> 'Hello '
+     * > Str::commonPrefix(['Hello Annemieke', 'Hello Boudewijn', 'Hello Erik']) -> 'Hello '
      *
      * @param string[] $values
      * @return string
