@@ -57,7 +57,7 @@ class File
         return [
             $ext['dirname'],
             $ext['filename'],
-            empty($ext['extension']) ? '' : $ext['extension']
+            empty($ext['extension']) ? '' : $ext['extension'],
         ];
     }
 }

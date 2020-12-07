@@ -54,10 +54,11 @@ class Cryptor
      */
     protected $format;
 
-    /*
+    /**
      * @var int
      */
     private $iVNumberOfBytes;
+
     /**
      * @var string
      */
