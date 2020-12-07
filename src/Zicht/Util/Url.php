@@ -35,9 +35,7 @@ class Url implements \ArrayAccess
     const FRAGMENT = 'fragment';
 
     /**
-     * Contains all available url parts.
-     *
-     * @var array
+     * @var array Contains all available url parts.
      */
     protected static $parts = [
         self::SCHEME,
@@ -47,20 +45,16 @@ class Url implements \ArrayAccess
         self::PORT,
         self::PATH,
         self::QUERY,
-        self::FRAGMENT
+        self::FRAGMENT,
     ];
 
     /**
-     * Contains a hash of the components mapped to their values
-     *
-     * @var array
+     * @var array Contains a hash of the components mapped to their values
      */
     private $components = [];
 
     /**
-     * Setup the class with empty defaults
-     *
-     * @param string $url
+     * @param string $url Setup the class with empty defaults
      */
     public function __construct($url = null)
     {
