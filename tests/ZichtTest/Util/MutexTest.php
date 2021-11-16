@@ -5,14 +5,15 @@
 
 namespace ZichtTest\Util;
 
+use PHPUnit\Framework\TestCase;
 use Zicht\Util\Mutex;
 
 /**
  * @covers Zicht\Util\Mutex
  */
-class MutexTest extends \PHPUnit_Framework_TestCase
+class MutexTest extends TestCase
 {
-    protected function setUp()
+    public function setUp(): void
     {
         $this->fsMock = $this->getMockBuilder('stdClass')->setMethods(array('fopen', 'fclose', 'flock'))->getMock();
         $this->filesystem = array(
@@ -22,11 +23,9 @@ class MutexTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testMutexWillAbortIfFileCannotBeOpened()
     {
+        $this->expectException('\RuntimeException');
         $mutex = new Mutex('foo/bar/baz', true, $this->filesystem);
 
         $this->fsMock->expects($this->once())->method('fopen')->with('foo/bar/baz')->will($this->returnValue(false));

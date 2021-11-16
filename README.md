@@ -6,5 +6,6 @@ General purpose utility library used across several zicht libraries
 - unit test: `composer test`
 - lint test: `composer lint`
 
-# Maintainer
+# Maintainer(s)
 * Boudewijn Schoon <boudewijn@zicht.nl>
+* Erik Trapman <erik@zicht.nl>

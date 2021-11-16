@@ -1,3 +1,6 @@
+/.env
 /.idea/
-/build/
+/.phpunit.result.cache
+/composer.lock
+/docker-compose.y*ml
 /vendor/

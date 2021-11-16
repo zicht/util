@@ -25,7 +25,7 @@ class Html
 
         for ($i = 0; $i < strlen($html); true) {
             if ($html[$i] == '<') {
-                if (preg_match('/^<\/?[a-z][\w-:]*[^>]*?>/i', substr($html, $i), $m)) {
+                if (preg_match('/^<\/?[a-z][\w:-]*[^>]*?>/i', substr($html, $i), $m)) {
                     $ret .= self::sanitizeTag($m[0], $allowed);
                     $i += strlen($m[0]);
                 } else {
@@ -108,7 +108,7 @@ class Html
         } else {
             $ret = '';
             $attributes = [];
-            preg_match('/^[\w-:]+/', $tag, $m);
+            preg_match('/^[\w:-]+/', $tag, $m);
             $tagName = strtolower($m[0]);
             if (null !== $allowed
                 && (is_array($allowed) && !array_key_exists($tagName, $allowed))
@@ -185,7 +185,7 @@ class Html
                         $callback = $allowed;
                     } elseif (is_array($allowed) && isset($allowed[$tagName]) && is_callable($allowed[$tagName])) {
                         $callback = $allowed[$tagName];
-                    } elseif (is_array($allowed[$tagName]) && isset($allowed[$tagName][$attrName])) {
+                    } elseif (isset($allowed[$tagName][$attrName]) && is_callable($allowed[$tagName][$attrName])) {
                         $callback = $allowed[$tagName][$attrName];
                     }
                     if (null !== $callback) {

@@ -5,12 +5,13 @@
 
 namespace ZichtTest\Util;
 
+use PHPUnit\Framework\TestCase;
 use Zicht\Util\Cryptor;
 
 /**
  * Class CryptorTest
  */
-class CryptorTest extends \PHPUnit_Framework_TestCase
+class CryptorTest extends TestCase
 {
     /**
      * Test encryption/decryption.

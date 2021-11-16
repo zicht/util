@@ -4,9 +4,10 @@
  */
 namespace ZichtTest\Util;
 
+use PHPUnit\Framework\TestCase;
 use Zicht\Util\Xml;
 
-class XmlTest extends \PHPUnit_Framework_TestCase
+class XmlTest extends TestCase
 {
     /**
      * @dataProvider formattedData

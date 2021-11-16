@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 2.0.0 - 2021-11-25
+### Added
+- Support for PHP 8
+### Removed
+- Support for PHP 5.6
+
 ## 1.11.0 - 2020-05-13
 ### Added
 - Added `Str::commonPrefix` to compute the common prefix of multiple strings.

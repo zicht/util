@@ -5,9 +5,10 @@
 
 namespace ZichtTest\Util;
 
+use PHPUnit\Framework\TestCase;
 use Zicht\Util\Net;
 
-class NetTest extends \PHPUnit_Framework_TestCase
+class NetTest extends TestCase
 {
     /**
      * @dataProvider ipTests

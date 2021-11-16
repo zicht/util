@@ -4,9 +4,10 @@
  */
 namespace ZichtTest\Util;
 
+use PHPUnit\Framework\TestCase;
 use Zicht\Util\File;
 
-class FileTest extends \PHPUnit_Framework_TestCase
+class FileTest extends TestCase
 {
     function testSanitize()
     {
@@ -17,11 +18,9 @@ class FileTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     function testSanitizeWillThrowExceptionIfMaxLengthIsNotSane()
     {
+        $this->expectException('\InvalidArgumentException');
         File::sanitize("w00t", true, 3);
     }
 }
