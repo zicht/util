@@ -61,7 +61,7 @@ class Debug
     /**
      * Prefix all lines with a line number starting at the given number.
      *
-     * @param array $lines
+     * @param array<int, \Stringable> $lines
      * @param int $prefixStart
      * @return string
      */
@@ -90,7 +90,8 @@ class Debug
      */
     public static function dump($var, $maxdepth = 10, $maxValueLen = 255, $stack = [])
     {
-        $children = $hierarchyNotation = null;
+        $children = null;
+        $hierarchyNotation = '';
 
         if (is_object($var)) {
             $children = get_object_vars($var);
@@ -112,12 +113,10 @@ class Debug
                 } else {
                     $ret .= "\n";
 
-                    $i = 0;
                     foreach ($children as $name => $value) {
-                        array_push($stack, sprintf($hierarchyNotation, $name));
+                        $stack[] = sprintf($hierarchyNotation, $name);
                         $ret .= self::dump($value, $maxdepth, $maxValueLen, $stack);
                         array_pop($stack);
-                        $i++;
                     }
                 }
             }
@@ -193,7 +192,7 @@ class Debug
      * Formats a stack prefix
      *
      * @param array $stack
-     * @param string $var
+     * @param array|object $var
      * @return string
      */
     protected static function formatDumpStack($stack, $var)

@@ -16,7 +16,7 @@ class Html
      * Use the callback to filter out unwanted elements. If not specified, it will keep all elements and attributes.
      *
      * @param string $html
-     * @param callback $allowed
+     * @param array|callable $allowed
      * @return string
      */
     public static function repair($html, $allowed = null)
@@ -38,7 +38,7 @@ class Html
                 $i++;
             }
         }
-        foreach (array_reverse(self::sanitizeTag(null, null, true)) as $unclosed) {
+        foreach (array_reverse(self::sanitizeTag('', null, true)) as $unclosed) {
             $ret .= '</' . $unclosed . '>';
         }
         return $ret;
@@ -64,9 +64,10 @@ class Html
      * Helper to keep track of the tag stack in Html::repair()
      *
      * @param string $tag
-     * @param array $allowed
+     * @param array|callable $allowed
      * @param bool $resetStack
      * @return string|array
+     * @psalm-return ($resetStack is true ? array : string)
      */
     private static function sanitizeTag($tag, $allowed = null, $resetStack = false)
     {
@@ -319,7 +320,7 @@ class Html
                 } else {
                     // Opening or closing tag?
                     $open = ($chunk[1] != '/');
-                    list($tag) = preg_split('/[ >]/', substr($chunk, 2 - $open), 2);
+                    list($tag) = preg_split('/[ >]/', substr($chunk, 2 - (int)$open), 2);
                     if (!$ignore) {
                         if ($open) {
                             $ignore = true;

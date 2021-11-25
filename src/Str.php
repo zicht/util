@@ -249,7 +249,7 @@ class Str
         return join(
             '',
             array_map(
-                function () use ($characters, $len, $random_generator) {
+                function ($_i) use ($characters, $len, $random_generator) {
                     return $characters[$random_generator(0, $len - 1)];
                 },
                 range(0, $length - 1)

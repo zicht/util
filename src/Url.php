@@ -248,7 +248,7 @@ class Url implements \ArrayAccess
     /**
      * Adds a parameter at the specified path.
      *
-     * @param string|array $name
+     * @param string $name
      * @param mixed $value
      * @param bool $convertToArrayIfExists
      * @return Url
@@ -318,7 +318,7 @@ class Url implements \ArrayAccess
 
         foreach ($vars as $name => $value) {
             if ($ignoreName) {
-                $name = null;
+                $name = '';
             }
             if (strlen($parentName)) {
                 $name = sprintf('%s[%s]', $parentName, $name);
@@ -345,7 +345,7 @@ class Url implements \ArrayAccess
      */
     public static function queryString($params, $parent = null, $callback = 'rawurlencode', $ignoreNonValues = true)
     {
-        $params = self::flattenRequestVars($params, $parent);
+        $params = self::flattenRequestVars($params, (string)$parent);
         $ret = [];
         foreach ($params as $pair) {
             list($name, $value) = $pair;

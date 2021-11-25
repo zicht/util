@@ -13,6 +13,7 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^8",
+        "vimeo/psalm": "^4.13",
         "zicht/standards-php": "^4"
     },
     "suggest": {
@@ -31,14 +32,9 @@
         }
     },
     "scripts": {
-        "lint": [
-            "phpcs -s src/ --standard=vendor/zicht/standards-php/src/Zicht --extensions=php -p --parallel=$(nproc)"
-        ],
-        "lint-fix": [
-            "phpcbf -s src/ --standard=vendor/zicht/standards-php/src/Zicht --extensions=php --parallel=$(nproc)"
-        ],
-        "test": [
-            "phpunit -c phpunit.xml.dist"
-        ]
+        "analysis": "psalm",
+        "lint": "phpcs -s src/ --standard=vendor/zicht/standards-php/src/Zicht --extensions=php -p --parallel=$(nproc)",
+        "lint-fix": "phpcbf -s src/ --standard=vendor/zicht/standards-php/src/Zicht --extensions=php --parallel=$(nproc)",
+        "test": "phpunit -c phpunit.xml.dist"
     }
 }
