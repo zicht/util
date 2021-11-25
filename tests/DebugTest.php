@@ -2,7 +2,7 @@
 /**
  * @copyright Zicht Online <http://zicht.nl>
  */
-namespace ZichtTest\Util;
+namespace Zicht\Util\Test;
 
 use PHPUnit\Framework\TestCase;
 use Zicht\Util\Debug;
@@ -121,7 +121,7 @@ class DebugTest extends TestCase
                 (object) array('a' => 1, 'b' => 2)
             ),
             array(
-                "<ZichtTest\\Util\\DebugTestClass>\n"
+                "<Zicht\\Util\\Test\\DebugTestClass>\n"
                 . "->a = 1\n"
                 . "->b = 2",
                 new DebugTestClass(array('a' => 1, 'b' => 2))

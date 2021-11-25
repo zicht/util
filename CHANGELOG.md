@@ -13,6 +13,10 @@ Nothing so far
 - Support for PHP 8
 ### Removed
 - Support for PHP 5.6
+### Changed
+- Switched from PSR-0 to PSR-4 autoloading
+- Changed tests namespace from ZichtTest\Util\ to Zicht\Util\Test\
+- Removed Zicht/Util/(Test/) directory depth: moved all code up directly into src/ and test/
 
 ## 1.11.0 - 2020-05-13
 ### Added

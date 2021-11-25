@@ -3,7 +3,7 @@
  * @copyright Zicht Online <http://zicht.nl>
  */
 
-namespace ZichtTest\Util;
+namespace Zicht\Util\Test;
 
 use PHPUnit\Framework\TestCase;
 use Zicht\Util\TreeTools;

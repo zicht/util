@@ -1,48 +1,44 @@
 {
-  "name": "zicht/util",
-  "description": "Low level utility classes",
-  "license": "MIT",
-  "scripts": {
-    "lint": [
-      "phpcs -s src/ --standard=vendor/zicht/standards-php/src/Zicht --extensions=php -p --parallel=$(nproc)"
+    "name": "zicht/util",
+    "description": "Low level utility classes",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Zicht online",
+            "email": "info@zicht.nl"
+        }
     ],
-    "lint-fix": [
-      "phpcbf -s src/ --standard=vendor/zicht/standards-php/src/Zicht --extensions=php --parallel=$(nproc)"
-    ],
-    "test": [
-      "phpunit -c phpunit.xml.dist"
-    ]
-  },
-  "authors": [
-    {
-      "name": "Gerard van Helden",
-      "email": "gerard@zicht.nl"
+    "require": {
+        "php": "^7.2 || ^8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8",
+        "zicht/standards-php": "^4"
+    },
+    "suggest": {
+        "ext-dom": "For use of Xml::format",
+        "ext-intl": "For use of Str::ascii",
+        "ext-openssl": "For use of our Cryptor"
+    },
+    "autoload": {
+        "psr-4": {
+            "Zicht\\Util\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Zicht\\Util\\Test\\": "tests/"
+        }
+    },
+    "scripts": {
+        "lint": [
+            "phpcs -s src/ --standard=vendor/zicht/standards-php/src/Zicht --extensions=php -p --parallel=$(nproc)"
+        ],
+        "lint-fix": [
+            "phpcbf -s src/ --standard=vendor/zicht/standards-php/src/Zicht --extensions=php --parallel=$(nproc)"
+        ],
+        "test": [
+            "phpunit -c phpunit.xml.dist"
+        ]
     }
-  ],
-  "require": {
-    "php": "^7.2 || ^8.0"
-  },
-  "suggest": {
-    "ext-dom": "For use of Xml::format",
-    "ext-intl": "For use of Str::ascii",
-    "ext-openssl": "For use of our Cryptor"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "^8",
-    "zicht/standards-php": "^4"
-  },
-  "autoload": {
-    "psr-0": {
-      "Zicht": [
-        "src/"
-      ]
-    }
-  },
-  "autoload-dev": {
-    "psr-0": {
-      "Zicht": [
-        "tests/"
-      ]
-    }
-  }
 }
