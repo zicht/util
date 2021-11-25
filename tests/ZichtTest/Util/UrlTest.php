@@ -4,13 +4,15 @@
  */
 namespace ZichtTest\Util;
 
+use PHPUnit\Framework\TestCase;
 use Zicht\Util\Url;
 
 /**
  * @covers Zicht\Util\Url
  */
-class UrlTest extends \PHPUnit_Framework_TestCase {
+class UrlTest extends TestCase {
     function testConstruct() {
+        $this->expectNotToPerformAssertions();
         $url = new Url();
         return $url;
     }
@@ -138,10 +140,8 @@ class UrlTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('http://example.org/?a[]=b&a[]=c', (string)$url);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     function testConstructingArrayFromStringWillThrowExceptionIfStrict() {
+        $this->expectException('\InvalidArgumentException');
         $url = new Url();
         $url->setParam('a', 'b');
         $url->addParam('a', 'c');
@@ -226,19 +226,14 @@ class UrlTest extends \PHPUnit_Framework_TestCase {
     }
 
 
-
-    /**
-     * @expectedException \OutOfBoundsException
-     */
     function testOffsetSetWillThrowExceptionIfInvalidPropertyIsRequested() {
+        $this->expectException('\OutOfBoundsException');
         $url = new Url();
         $url['a'] = 'b';
     }
 
-    /**
-     * @expectedException \OutOfBoundsException
-     */
     function testOffsetGetWillThrowExceptionIfInvalidPropertyIsRequested() {
+        $this->expectException('\OutOfBoundsException');
         $url = new Url();
         echo $url['a'];
     }

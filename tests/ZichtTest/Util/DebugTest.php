@@ -4,6 +4,7 @@
  */
 namespace ZichtTest\Util;
 
+use PHPUnit\Framework\TestCase;
 use Zicht\Util\Debug;
 class DebugTestClass
 {
@@ -15,7 +16,7 @@ class DebugTestClass
     }
 }
 
-class DebugTest extends \PHPUnit_Framework_TestCase
+class DebugTest extends TestCase
 {
     function testLines()
     {
@@ -38,11 +39,11 @@ class DebugTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \OutOfBoundsException
      * @dataProvider invalidLines
      */
     function testFormatContextWillThrowOutOfBoundsExceptionIfLineNumberIsInvalid($n)
     {
+        $this->expectException('\OutOfBoundsException');
         Debug::formatContext("", $n);
     }
     function invalidLines()
@@ -56,6 +57,7 @@ class DebugTest extends \PHPUnit_Framework_TestCase
 
     function testFormatContextWillNotThrowExceptionOnEmptyStringAnd()
     {
+        $this->expectNotToPerformAssertions();
         Debug::formatContext("", 1);
     }
 

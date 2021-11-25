@@ -5,9 +5,10 @@
 
 namespace ZichtTest\Util;
 
+use PHPUnit\Framework\TestCase;
 use Zicht\Util\Html;
 
-class HtmlTest extends \PHPUnit_Framework_TestCase
+class HtmlTest extends TestCase
 {
     /**
      * @dataProvider repair_html

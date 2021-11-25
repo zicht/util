@@ -3,9 +3,10 @@
  * @copyright Zicht Online <http://zicht.nl>
  */
 namespace ZichtTest\Util;
+use PHPUnit\Framework\TestCase;
 use Zicht\Util\Str;
 
-class StrTest extends \PHPUnit_Framework_TestCase
+class StrTest extends TestCase
 {
     /**
      * @dataProvider cases

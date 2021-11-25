@@ -2,21 +2,27 @@
 /**
  * @copyright Zicht Online <http://zicht.nl>
  */
+
 namespace ZichtTest\Util;
 
+use PHPUnit\Framework\TestCase;
 use Zicht\Util\TreeTools;
 
-class TreeToolsTest extends \PHPUnit_Framework_TestCase {
+class TreeToolsTest extends TestCase
+{
     /**
      * @dataProvider dataGet
      * @param $subject
      * @param $path
      * @param $expectedValue
      */
-    function testGetByPath($subject, $path, $expectedValue) {
+    function testGetByPath($subject, $path, $expectedValue)
+    {
         $this->assertEquals($expectedValue, TreeTools::getByPath($subject, $path));
     }
-    function dataGet() {
+
+    function dataGet()
+    {
         return array(
             array(array('a' => array('b' => 'c')), array('a', 'b'), 'c'),
             array((object)array('a' => (object)array('b' => 'c')), array('a', 'b'), 'c'),
@@ -31,12 +37,15 @@ class TreeToolsTest extends \PHPUnit_Framework_TestCase {
      * @param $value
      * @param $expected
      */
-    function testSetByPath($subject, $path, $value, $expected){
+    function testSetByPath($subject, $path, $value, $expected)
+    {
         $this->assertEquals($expected, TreeTools::setByPath($subject, $path, $value));
         $this->assertEquals($expected, $subject);
 
     }
-    function dataSet() {
+
+    function dataSet()
+    {
         return array(
             array(
                 array('a' => array('b' => 'c')),
