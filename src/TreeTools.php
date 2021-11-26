@@ -13,10 +13,10 @@ class TreeTools
     /**
      * Get a property value by a path of property names or key names.
      *
-     * @param string $subject
+     * @param string|array|iterable|object $subject
      * @param array $path
      * @param mixed $default
-     * @return null
+     * @return mixed
      */
     public static function getByPath($subject, array $path, $default = null)
     {

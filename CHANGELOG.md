@@ -11,6 +11,7 @@ Nothing so far
 ## 2.0.0 - 2021-11-25
 ### Added
 - Support for PHP 8
+- Added Vimeo Psalm as dev requirement and added Psalm to the Q&A GitHub Actions workflow
 ### Removed
 - Support for PHP 5.6
 ### Changed

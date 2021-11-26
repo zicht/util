@@ -16,6 +16,15 @@ namespace Zicht\Util;
  */
 class Mutex
 {
+    /** @var string */
+    public $file;
+
+    /** @var int */
+    public $flags;
+
+    /** @var array<string, callable> */
+    private $filesystem;
+
     /**
      * @param string $file
      * @param bool $blocking
