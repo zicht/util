@@ -222,7 +222,7 @@ class Html
      */
     public static function isWhitespace(\DOMNode $node)
     {
-        return $node->nodeType === XML_TEXT_NODE && preg_match('/^[\s\x0a\xc2]*$/', $node->nodeValue);
+        return $node->nodeValue && $node->nodeType === XML_TEXT_NODE && preg_match('/^[\s\x0a\xc2]*$/', $node->nodeValue);
     }
 
     /**

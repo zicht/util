@@ -18,9 +18,12 @@ class Xml
      */
     public static function format($str)
     {
-        $dom = new \DOMDocument();
-        $dom->loadXML($str);
-        $dom->formatOutput = true;
-        return $dom->saveXML();
+        if ($str) {
+            $dom = new \DOMDocument();
+            $dom->loadXML($str);
+            $dom->formatOutput = true;
+            return $dom->saveXML();
+        }
+        return '';
     }
 }
