@@ -51,7 +51,7 @@ class Url implements \ArrayAccess
     /**
      * @var array Contains a hash of the components mapped to their values
      */
-    private $components = [];
+    protected $components = [];
 
     /**
      * @param string $url Setup the class with empty defaults
@@ -366,7 +366,7 @@ class Url implements \ArrayAccess
      *
      * @return void
      */
-    private function reset()
+    protected function reset()
     {
         $this->components = [];
     }
