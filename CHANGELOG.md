@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 2.0.1 - 2022-02-01
+### Changed
+- Update `Url` to be more extensible by changing `private` for `protected`
+
 ## 2.0.0 - 2021-11-25
 ### Added
 - Support for PHP 8
@@ -61,7 +65,7 @@ Nothing so far
 ## 1.5.0
 * 1.5.0 - add `Str::rolenize`
 * 1.5.1 - remove `Str::rolenize` (it did not belong here, and was tagged by accident)
-* 1.5.2 
+* 1.5.2
   * Documentation: Made the code for Net::isLocalIpv4() a bit better legible
   * Fix: When systemizing a name, "soft hyphens" should be removed
 
