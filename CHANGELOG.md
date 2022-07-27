@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 2.0.2 - 2022-06-20
+### Changed
+- Update `Str::ascii` to properly call `html_entity_decode`
+
 ## 2.0.1 - 2022-02-01
 ### Changed
 - Update `Url` to be more extensible by changing `private` for `protected`
