@@ -7,7 +7,7 @@ on:
 
 jobs:
     backend:
-        runs-on: ubuntu-18.04
+        runs-on: ubuntu-22.04
         strategy:
             matrix:
                 # Since using PHPUnit 8 we can only support PHP7.2 and up.
